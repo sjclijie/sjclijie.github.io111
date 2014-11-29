@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About
+comments: false
 ---
 
 ## Create by Mu-An
