@@ -7,6 +7,23 @@
     <atom:link href="http://www.jaylee.cc/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>hello</title>
+        <description>&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// ==================================================================&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// hello world&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// ------------------------------------------------------------------&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Sun, 09 Nov 2014 22:18:41 +0800</pubDate>
+        <link>http://www.jaylee.cc/hello/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/hello/</guid>
+      </item>
+    
+      <item>
         <title>awk完全教程</title>
         <description></description>
         <pubDate>Sun, 09 Nov 2014 22:18:41 +0800</pubDate>
