@@ -16,6 +16,7 @@
 <script src='/javascripts/nprogress.js' type='text/javascript'></script>
 
 <script src='/javascripts/app.js' type='text/javascript'></script>
+<script>var duoshuoQuery = {short_name:"jaylee"};</script>
 	</head>
 	<body>
 
@@ -72,19 +73,6 @@
 				<!-- 多说评论框 start -->
 <div class="block ds-thread" data-title="PHP5.2自5.6新特性" data-url="http://www.jaylee.cc/php5-2-since-new-in-5-6/"></div>
 <!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jaylee"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-</script>
-<!-- 多说公共JS代码 end -->
 			
 
 		</div>
@@ -96,6 +84,8 @@ var duoshuoQuery = {short_name:"jaylee"};
                 App.mapKeySupport();
 
                 App.initNProgress();
+
+                App.initDuoshuo();
             });
 
 		</script>
