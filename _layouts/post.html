@@ -21,7 +21,11 @@
       {% if site.disqus_shortname and page.disqus != false %}
         {% include disqus.html %}
       {% endif %}
-    
+      
+      {% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments != false%}
+        {% include duoshuo.html %}
+      {% endif %}
+
     </div>
     {% include footer.html %}
   </body>
