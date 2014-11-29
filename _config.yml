@@ -2,23 +2,19 @@ title:            Jaylee
 description:      专注web开发
 url:              # Site url.
 baseurl:          # Base url. ( if use subdirectory-like URL )
-signoff:          Jaylee# Your name.
+signoff:          Jaylee
 disqus_shortname: # disqus comment thread for post header options. ( leave blank if unwanted. )
 google_analytics_id: # set tracking, UA-XXXX-Y.
 
 links:
   - name:         About
     url:          /about
+  - name:         Blog
+    url:          http://localhost:4000
   - name:         Feed
     url:          /feed.xml
-  - name:         Blog
-    url:          http://chloerei.com
-    external:     true
-  - name:         Email
-    url:          mailto:chloerei@gmail.com
-    external:     true
   - name:         GitHub
-    url:          http://github.com/chloerei/scribble
+    url:          https://github.com/sjclijie
     external:     true
 
 pygments:         true
