@@ -1,16 +1,30 @@
 <html>
-  <head>
-    <title>{{ site.title }}</title>
-    {% include head.html %}
-  </head>
-  <body>
-    {% include header.html %}
-    <div id='container'>
-      {% include links.html %}
-      <div class="content">
-        {{ content }}
-      </div>
-    </div>
+    <head>
+        <title>{{ site.title }}</title>
+        {% include head.html %}
+    </head>
+    <body>
+
+        {% include header.html %}
+
+        <div id='container'>
+            {% include links.html %}
+            <div class="content">{{content}}</div>
+        </div>  
+
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+            });
+
+        </script>
+
+    </body>
+
     {% include footer.html %}
-  </body>
+
 </html>
