@@ -3,23 +3,23 @@
   <channel>
     <title>Jaylee</title>
     <description>专注web开发</description>
-    <link></link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://www.jaylee.cc</link>
+    <atom:link href="http://www.jaylee.cc/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>awk完全教程</title>
         <description></description>
         <pubDate>Sun, 09 Nov 2014 22:18:41 +0800</pubDate>
-        <link>/2014/11/09/comprehensive-course-for-awk/</link>
-        <guid isPermaLink="true">/2014/11/09/comprehensive-course-for-awk/</guid>
+        <link>http://www.jaylee.cc/2014/11/09/comprehensive-course-for-awk/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/2014/11/09/comprehensive-course-for-awk/</guid>
       </item>
     
       <item>
         <title>PHP5.2自5.6新特性</title>
         <description></description>
         <pubDate>Sun, 26 Oct 2014 18:00:28 +0800</pubDate>
-        <link>/2014/10/26/php5-2-since-new-in-5-6/</link>
-        <guid isPermaLink="true">/2014/10/26/php5-2-since-new-in-5-6/</guid>
+        <link>http://www.jaylee.cc/2014/10/26/php5-2-since-new-in-5-6/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/2014/10/26/php5-2-since-new-in-5-6/</guid>
       </item>
     
       <item>
@@ -142,8 +142,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 26 Oct 2014 17:59:46 +0800</pubDate>
-        <link>/php/2014/10/26/php-trait-details/</link>
-        <guid isPermaLink="true">/php/2014/10/26/php-trait-details/</guid>
+        <link>http://www.jaylee.cc/php/2014/10/26/php-trait-details/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/php/2014/10/26/php-trait-details/</guid>
       </item>
     
   </channel>
