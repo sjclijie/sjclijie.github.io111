@@ -17,7 +17,7 @@ links:
     url:          https://github.com/sjclijie
     external:     true
 
-pygments:         true
+highlighter:      pygments
 permalink:        pretty
 markdown:         redcarpet
 redcarpet:
