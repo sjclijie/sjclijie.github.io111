@@ -8,7 +8,7 @@ google_analytics_id: # set tracking, UA-XXXX-Y.
 
 links:
   - name:         About
-    url:          /about
+    url:          /about.html
   - name:         Blog
     url:          /
   - name:         Feed
@@ -18,7 +18,8 @@ links:
     external:     true
 
 highlighter:      pygments
-permalink:        pretty
+#permalink:        pretty
+permalink:        /:title/
 markdown:         redcarpet
 redcarpet:
   extensions:     [autolink, tables, smart, footnotes]
