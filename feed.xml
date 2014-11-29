@@ -1,21 +1,150 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title }}</title>
-    <description>{{ site.description }}</description>
-    <link>{{ site.url }}</link>
-    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
-    {% for post in site.posts limit:10 %}
+    <title>Jaylee</title>
+    <description>专注web开发</description>
+    <link>http://www.jaylee.cc</link>
+    <atom:link href="http://www.jaylee.cc/feed.xml" rel="self" type="application/rss+xml" />
+    
       <item>
-        <title>{{ post.title }}</title>
-        <description>{{ post.content | xml_escape | replace: 'javascript||' | replace: 'shell||' | replace: 'ruby||' | replace: 'html||' }}</description>
-        <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-        <link>{{ site.url }}{{ post.url }}</link>
-        <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+        <title>awk完全教程</title>
+        <description></description>
+        <pubDate>Sun, 09 Nov 2014 22:18:41 +0800</pubDate>
+        <link>http://www.jaylee.cc/2014/11/09/comprehensive-course-for-awk/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/2014/11/09/comprehensive-course-for-awk/</guid>
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>PHP5.2自5.6新特性</title>
+        <description></description>
+        <pubDate>Sun, 26 Oct 2014 18:00:28 +0800</pubDate>
+        <link>http://www.jaylee.cc/2014/10/26/php5-2-since-new-in-5-6/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/2014/10/26/php5-2-since-new-in-5-6/</guid>
+      </item>
+    
+      <item>
+        <title>PHP Traits详解</title>
+        <description>&lt;p&gt;从PHP5.4起，为了弥补php单继承的不足，引入了traits特性。使得php可以通过trait实现多重继承。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;一个简单的栗子&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rich&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;I&amp;#39;m rich...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//在类中使用traits&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handSome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;I&amp;#39;m handSome...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;//实例化对象&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rich&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// I&amp;#39;m rich...&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;handSome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// I&amp;#39;m handSome...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;还可以像这样，同时引入多个Traits&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;includeTrait&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;includeMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;这个trait将被别的trait包含&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;firstTrait&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//trait中也可以包含trait&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;includeTrait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;firstMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;method1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secondTrait&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//trait中也可以使用抽象方法&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;secondMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Foo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//同时使用多个trait&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;firstTrait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secondTrait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//重写抽象方法&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;secondMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;method2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;includeMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//&amp;quot;这个trait将被别的trait包含&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;firstMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;//&amp;quot;method1&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;secondMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//&amp;quot;method2&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;如果命名冲突了呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;T1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sameMethodName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;T1.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;T2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//包含了一个和T1同名的方法&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sameMethodName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;T2.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Foo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;//同时使用T1和T2两个traits&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;T1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;T2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+            &lt;span class=&quot;c1&quot;&gt;//使用T1中的sameMethodName而不是T2中的&lt;/span&gt;
+
+            &lt;span class=&quot;nx&quot;&gt;T1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sameMethodName&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;insteadof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;T2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+            &lt;span class=&quot;c1&quot;&gt;//将T2中的sameMethodName改名为anotherMethod;&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;T2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sameMethodName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anotherMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sameMethodName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;//&amp;quot;T1.&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;anotherMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;//&amp;quot;T2.&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;总结&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Traits&lt;/code&gt; 和一个类的形为相似，但是不能被实例化。&lt;/li&gt;
+&lt;li&gt;可以使用&lt;code&gt;use&lt;/code&gt;引入多个Traits&lt;/li&gt;
+&lt;li&gt;如果一个类引入了多个Traits,并且Traits中有同名的方法，在没有明确指定如何解决冲突时会产生一个致命错误，需要使用&lt;code&gt;insteadof&lt;/code&gt;操作符来指定使用冲突方法中的哪一个方法，也可以使用&lt;code&gt;as&lt;/code&gt;操作符将其中一个冲突方法以另一个名称引入。&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;as&lt;/code&gt;语法还可以用来调整方法的访问控制权限。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 26 Oct 2014 17:59:46 +0800</pubDate>
+        <link>http://www.jaylee.cc/php/2014/10/26/php-trait-details/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/php/2014/10/26/php-trait-details/</guid>
+      </item>
+    
   </channel>
 </rss>
