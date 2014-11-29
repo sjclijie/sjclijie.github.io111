@@ -1,0 +1,30 @@
+title:            Jaylee
+description:      专注web开发
+url:              # Site url.
+baseurl:          # Base url. ( if use subdirectory-like URL )
+signoff:          Jaylee
+disqus_shortname: # disqus comment thread for post header options. ( leave blank if unwanted. )
+google_analytics_id: # set tracking, UA-XXXX-Y.
+
+links:
+  - name:         About
+    url:          /about
+  - name:         Blog
+    url:          http://localhost:4000
+  - name:         Feed
+    url:          /feed.xml
+  - name:         GitHub
+    url:          https://github.com/sjclijie
+    external:     true
+
+highlighter:      pygments
+permalink:        pretty
+markdown:         redcarpet
+redcarpet:
+  extensions:     [autolink, tables, smart, footnote#s]
+
+
+
+# 多说
+duoshuo_short_name: jaylee
+duoshuo_comments: true
