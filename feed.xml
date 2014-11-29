@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jaylee</title>
+    <description>专注web开发</description>
+    <link></link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Placeholder Post</title>
+        <description>&lt;p&gt;Scribble is a &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; theme, created by &lt;a href=&quot;http://muan.co/&quot;&gt;Mu-An&lt;/a&gt; and modify by &lt;a href=&quot;http://chloerei.com/&quot;&gt;Rei&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/chloerei/scribble&quot; target=&quot;_blank&quot; class=&quot;big-button gray&quot;&gt;Get it on GitHub &amp;hearts;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h2&gt;Header 2&lt;/h2&gt;
+
+&lt;h3&gt;Header 3&lt;/h3&gt;
+
+&lt;h4&gt;Header 4&lt;/h4&gt;
+
+&lt;p&gt;Normal text&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;italic&lt;/em&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;order list&lt;/li&gt;
+&lt;li&gt;order list&lt;/li&gt;
+&lt;li&gt;order list&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder list&lt;/li&gt;
+&lt;li&gt;unorder list&lt;/li&gt;
+&lt;li&gt;unorder list&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Boom. I am a blockquote.&lt;/p&gt;
+
+&lt;p&gt;Say something really clever here.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;whaaa&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;I have a friend called Bobobmob.&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Fri, 11 Oct 2013 00:00:00 +0800</pubDate>
+        <link>/2013/10/11/placeholder-post/</link>
+        <guid isPermaLink="true">/2013/10/11/placeholder-post/</guid>
+      </item>
+    
+  </channel>
+</rss>
