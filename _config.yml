@@ -21,7 +21,7 @@ highlighter:      pygments
 permalink:        pretty
 markdown:         redcarpet
 redcarpet:
-  extensions:     [autolink, tables, smart, footnote#s]
+  extensions:     [autolink, tables, smart, footnotes]
 
 # 多说
 duoshuo_short_name: jaylee
