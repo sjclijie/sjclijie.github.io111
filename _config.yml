@@ -1,5 +1,5 @@
 title:            Jaylee
-description:      专注web开发
+description:      Do have faith in what you're doing.
 url:              http://www.jaylee.cc
 baseurl:          # Base url. ( if use subdirectory-like URL )
 signoff:          Jaylee
@@ -22,7 +22,7 @@ highlighter:      pygments
 permalink:        /:title/
 markdown:         redcarpet
 redcarpet:
-  extensions:     [autolink, tables, smart, footnotes]
+  extensions:     [autolink, tables, smart, footnotes, fenced_code_blocks]
 
 # 多说
 duoshuo_short_name: jaylee
