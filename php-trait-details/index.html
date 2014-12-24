@@ -23,7 +23,7 @@
 		<header>
 <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
 <p>Jaylee</p>
-<p>专注web开发</p>
+<p>Do have faith in what you're doing.</p>
 </header>
 
 
@@ -45,7 +45,7 @@
   
   
     <div class="right">
-      <a href="/php5-2-since-new-in-5-6/">
+      <a href="/php5-2-since-new-in-5-6/" pjax=true>
         ›
       </a>
     </div>
@@ -62,7 +62,7 @@
 					<p>从PHP5.4起，为了弥补php单继承的不足，引入了traits特性。使得php可以通过trait实现多重继承。</p>
 
 <p><strong>一个简单的栗子</strong></p>
-<div class="highlight"><pre><code class="php language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
     <span class="k">trait</span> <span class="nx">R</span> <span class="p">{</span>
 
@@ -89,7 +89,7 @@
     <span class="nv">$p</span><span class="o">-&gt;</span><span class="na">handSome</span><span class="p">();</span> <span class="c1">// I&#39;m handSome...</span>
 </code></pre></div>
 <p><strong>还可以像这样，同时引入多个Traits</strong></p>
-<div class="highlight"><pre><code class="php language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
     <span class="k">trait</span> <span class="nx">includeTrait</span> <span class="p">{</span>
         <span class="k">public</span> <span class="k">function</span> <span class="nf">includeMethod</span><span class="p">(){</span>
@@ -131,7 +131,7 @@
     <span class="nv">$foo</span><span class="o">-&gt;</span><span class="na">secondMethod</span><span class="p">();</span>   <span class="c1">//&quot;method2&quot;</span>
 </code></pre></div>
 <p><strong>如果命名冲突了呢？</strong></p>
-<div class="highlight"><pre><code class="php language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
     <span class="k">trait</span> <span class="nx">T1</span> <span class="p">{</span>
 
