@@ -116,12 +116,13 @@ footer {
     clear: both; }
 
   #container .block {
-    /*border-top: 1px solid #efefef;*/
+    border-top: 1px solid #efefef;
     border-bottom: 1px solid rgba(66,66,66,0.2);
     padding: 30px 40px 24px;
+    text-align: center;
   }
 
-  #container .block ul {
+  #container .nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -131,7 +132,7 @@ footer {
     text-align: center;
   }
 
-#container .block ul li{
+#container .nav ul li{
     display: inline-block;
     height: 22px;
     width: 48px;
@@ -141,7 +142,7 @@ footer {
     position: relative;
 }
 
-#container .block ul li .line{
+#container .nav ul li .line{
     position: absolute;
     -webkit-transition: all .25s ease;
        -moz-transition: all .25s ease;
@@ -150,7 +151,7 @@ footer {
             transition: all .25s ease;
 }
   
-#container .block ul li .line-top{
+#container .nav ul li .line-top{
     width: 0;
     height: 1px;
     background: #000;
@@ -159,13 +160,13 @@ footer {
     top: -1px;
 }
 
-#container .block ul li:hover .line-top{
+#container .nav ul li:hover .line-top{
     background: rgba(255,0,0,0.8);
     left: 0;
     width: 48px;
 }
 
-#container .block ul li .line-right{
+#container .nav ul li .line-right{
     width: 1px;
     height: 22px;
     background: rgba(255,0,0,0);
@@ -173,13 +174,13 @@ footer {
     top: -100%;
 }
 
-#container .block ul li:hover .line-right{
+#container .nav ul li:hover .line-right{
     background: rgba(255,0,0,0.8);
     right: -1px;
     top: 0;
 }
 
-#container .block ul li .line-bottom{
+#container .nav ul li .line-bottom{
     width: 0;
     height: 1px;
     background: rgba(255,0,0,0);
@@ -187,13 +188,13 @@ footer {
     top: 22px;
 }
 
-#container .block ul li:hover .line-bottom{
+#container .nav ul li:hover .line-bottom{
     background: rgba(255,0,0,0.8);
     right: 0;
     width: 48px;
 }
 
-#container .block ul li .line-left{
+#container .nav ul li .line-left{
     width: 1px;
     height: 22px;
     background: rgba(255,0,0,0);
@@ -201,12 +202,12 @@ footer {
     top: 100%;
 }
 
-#container .block ul li:hover .line-left{
+#container .nav ul li:hover .line-left{
     background: rgba(255,0,0,0.8);
     top: 0;
 }
 
-#container .block ul li a{
+#container .nav ul li a{
     width: 48px;
     background: rgba(255,255,255,0);
     -webkit-transition: all .25s linear;
@@ -216,7 +217,7 @@ footer {
             transition: all .25s linear;
 }
 
-#container .block ul li a:hover{
+#container .nav ul li a:hover{
     background: rgba(255,255,255,0.8);
 }
 
