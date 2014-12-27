@@ -1,23 +1,36 @@
 h2, h3, h4, h5 {
-  margin: 2em 0 1em; }
+  margin: 2em 0 1em; 
+}
 
 html, body {
-  height: 100%; }
+  height: 100%;
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font: 300 100%/1.75 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', sans-serif;
+  font-family: "YaHei Consolas Hybrid", "Consolas", "微软雅黑", "Segoe UI", Arial, "Times New Roman";
+}
 
 body {
-  background: #f9f9f9;
+  background: #f9f9f9 url(../images/background.png) repeat;
   color: #303030;
-  font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 19px;
   padding: 0;
-  margin: 0; }
+  margin: 0; 
+}
 
 #go-back-home {
-  margin: 40px 0 0; }
-  #go-back-home:hover {
-    background-image: none; }
+  margin: 40px 0 0; 
+}
+#go-back-home img{
+  border: none;
+}
+
+#go-back-home:hover {
+  background-image: none; 
+}
 
 .capitalize {
   text-transform: capitalize; }
@@ -82,25 +95,131 @@ footer {
 #container {
   width: 100%;
   max-width: 768px;
-  background: #fff;
   margin: 40px auto 20px;
-  border-radius: 7px;
+  border-radius: 10px;
   border: 1px solid #eee;
   position: relative;
   *zoom: 1;
+  background: -webkit-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -moz-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -ms-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+
   #container:before, #container:after {
     content: " ";
     display: table; }
   #container:after {
     clear: both; }
+
   #container .block {
-    border-top: 1px solid #efefef;
-    border-bottom: 1px solid #efefef;
+    /*border-top: 1px solid #efefef;*/
+    border-bottom: 1px solid rgba(66,66,66,0.2);
     padding: 30px 40px 24px;
-    text-align: center; }
+  }
+
+  #container .block ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 36px;
+    line-height: 36px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+#container .block ul li{
+    display: inline-block;
+    height: 22px;
+    width: 48px;
+    line-height: 22px;
+    text-align: center;
+    margin-left: 10px;
+    position: relative;
+}
+
+#container .block ul li .line{
+    position: absolute;
+    -webkit-transition: all .25s ease;
+       -moz-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+         -o-transition: all .25s ease;
+            transition: all .25s ease;
+}
+  
+#container .block ul li .line-top{
+    width: 0;
+    height: 1px;
+    background: #000;
+    background: rgba(255,0,0,0);
+    left: -100%;
+    top: -1px;
+}
+
+#container .block ul li:hover .line-top{
+    background: rgba(255,0,0,0.8);
+    left: 0;
+    width: 48px;
+}
+
+#container .block ul li .line-right{
+    width: 1px;
+    height: 22px;
+    background: rgba(255,0,0,0);
+    right: -1px;
+    top: -100%;
+}
+
+#container .block ul li:hover .line-right{
+    background: rgba(255,0,0,0.8);
+    right: -1px;
+    top: 0;
+}
+
+#container .block ul li .line-bottom{
+    width: 0;
+    height: 1px;
+    background: rgba(255,0,0,0);
+    right: -100%;
+    top: 22px;
+}
+
+#container .block ul li:hover .line-bottom{
+    background: rgba(255,0,0,0.8);
+    right: 0;
+    width: 48px;
+}
+
+#container .block ul li .line-left{
+    width: 1px;
+    height: 22px;
+    background: rgba(255,0,0,0);
+    left: -1px;
+    top: 100%;
+}
+
+#container .block ul li:hover .line-left{
+    background: rgba(255,0,0,0.8);
+    top: 0;
+}
+
+#container .block ul li a{
+    width: 48px;
+    background: rgba(255,255,255,0);
+    -webkit-transition: all .25s linear;
+       -moz-transition: all .25s linear;
+        -ms-transition: all .25s linear;
+         -o-transition: all .25s linear;
+            transition: all .25s linear;
+}
+
+#container .block ul li a:hover{
+    background: rgba(255,255,255,0.8);
+}
+
+    /*
     #container .block:first-child, #container .block + .block {
       border-top: 0; }
     #container .block:last-child {
@@ -124,6 +243,7 @@ footer {
       *vertical-align: auto;
       height: 20px;
       overflow: hidden; }
+    */
 
 .content {
   -webkit-box-sizing: border-box;
