@@ -45,7 +45,7 @@ echo $(expr length $string) 	    #输出：5
 
 ### 截取子字符串
 
-### 基本语法：
+#### 基本语法：
 
 - ```${string:position}```  在$string中从位置$position开始提取子字符串，如果$string是```"*"```或者```"@"```，那么将会从$position位置开始提取参数。
 
@@ -60,12 +60,13 @@ echo $(expr length $string) 	    #输出：5
 ```sh
 #!/bin/bash
 
+#截取子字符串
+
 string="abcdefghijk";
 
 echo ${string:1}		 # bcdefghijk
 
 echo ${string:2:5}		 # cdefg
-
 
 #位置参数
 set -- aa bb cc dd
@@ -77,5 +78,29 @@ echo $(expr substr $string 2 4)   #bcde
 
 ```
 
+```sh
+#!/bin/bash
 
+#使用正则表达式截取子字符串
+
+string=abcABC123ABCabc
+
+#从开头匹配
+echo `expr match "$string" '\(.[b-c]*[A-Z]..[0-9]\)' `	#abcABC1
+echo `expr "$string" : '\(.[b-c]*[A-Z]..[0-9]\)' `	    #abcABC1
+echo `expr "$string" : '\(.......\)' `			        #abcABC1
+
+#从结尾匹配
+echo `expr match "$string" '.*\([A-C][A-C][A-C][a-c]*\)' `		#ABCabc
+echo `expr "$string" :  '.*\([A-C][A-C][A-C][a-c]*\)' `			#ABCabc
+echo `expr "$string" :  '.*\(......\)' `				        #ABCabc
+
+
+#查看文件后缀名是否符合标准
+
+filename=test.php
+
+echo $(expr "$string":'.*\(.php\)$');
+
+```
 
