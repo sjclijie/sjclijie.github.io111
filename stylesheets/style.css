@@ -3,6 +3,7 @@ h2, h3, h4, h5 {
 }
 
 html, body {
+  text-shadow: 0 0 1px #ccc;
   height: 100%;
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -350,6 +351,22 @@ ul.posts, ul.posts li {
   list-style: none; }
 ul.posts li {
   margin-bottom: 20px; }
+
+ul.posts li a {
+  text-shadow: 0 0 1px #ccc;
+    -webkit-transition: all .25s ease-out;
+       -moz-transition: all .25s ease-out;
+        -ms-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+}
+
+ul.posts li a:hover{
+    background: none;
+    text-shadow: 0 0 2px #ccc;
+    color: rgba(255,0,0,0.8);
+}
+
 ul.posts .datetime {
   display: inline-block;
   vertical-align: baseline;
