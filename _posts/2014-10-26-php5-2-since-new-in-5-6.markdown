@@ -325,7 +325,7 @@ PHP官方推荐使用操作系统的机制来进行权限隔离，让Web服务�
 
 在匿名函数的参数列表后，我们用use关键字将匿名函数外的$num捕捉到了函数内部，以便我们知道该加多少。
 
-**```魔术方法: \_\_invoke(), \_\_callStatic()```**
+**```魔术方法: __invoke(), __callStatic()```**
 
 PHP的面向对象体系中，提供了若干“魔术方法”，用于实现类似其它语言中的“重载”，如访问不存在的方法、属性时触发某个魔术方法。
 
@@ -527,6 +527,395 @@ PHP的的 OPP 机制，具有继承和类似虚函数的功能，例如如下的
 **```Heredoc 和 Nowdoc```**
 
 PHP5.3对Heredoc以及Nowdoc进行了一些改进，它们都用于在PHP中嵌入大段的代码。
+
+Heredoc的行为类似于一个双引号字符串：
+
+```php
+
+<?php
+
+$name = "Jaylee";
+
+echo <<<TEXT
+
+my name is "{$name}"
+
+TEXT;
+
+?>
+
+```
+
+Heredoc以三个尖括号开始，后面跟一个标识符（TEXT）,直到一个同样的定格标识符（不能缩进）结束。
+就像双引号字符串一样，其中可以嵌入变量。
+
+Heredoc还可以用于函数参数，以及类成员初始化：
+
+```php
+
+<?php
+
+var_dump(<<<EOD
+    hello world
+EOD
+);
+
+
+class A {
+
+    const name = <<<EOD
+hello world
+EOD;
+
+    public $foo = <<<EOD
+hello world2
+EOD;
+
+}
+
+?>
+
+```
+
+
+Nowdoc的行为像一个单引号字符串，不能在其中嵌入变量，和Heredoc唯一的区别就是，三个尖括号的标识符要用单引号引起来：
+
+```php
+
+<?php
+
+    $name = "Jaylee";
+
+    echo <<<'EOD'
+
+my name is "{$name}"
+
+EOD;
+
+    //输出：my name is "{$name}"
+
+?>
+
+```
+
+
+**```用const定义常量```**
+
+
+php5.3起同时支持在全局命名空间和类中使用 const 定义常量。
+
+旧式风格：
+
+```php
+
+<?php
+
+    define("NAME","jaylee");
+
+?>
+
+```
+
+新式风格：
+
+```php
+
+<?php
+
+    const NAME = "Jaylee";
+
+?>
+
+```
+
+const形式仅适用于常量，不适用于运行时才能求值的表达式。
+
+```php
+
+<?php
+
+    const VALUE = 1234; //正确
+
+    const VALUE = 1000*2; //错误
+?>
+
+```
+
+**```三元运算符的简写形式```**
+
+旧式风格：
+
+```php
+
+<?php
+
+    echo $a ? $a : "No VALUE";
+
+?>
+
+```
+
+可以简写成：
+
+```php
+
+<?php
+
+    echo $a ? : "No Value";
+
+?>
+
+```
+
+即如果省略三元运算符的第二个部分，会默认用第一个部分代替。
+
+
+**```Phar```**
+
+Phar即PHP Archive, 起初只是Pear中的一个库而已，后来在PHP5.3被重新编写成C扩展并内置到 PHP 中。
+Phar用来将多个 .php 脚本打包(也可以打包其他文件)成一个 .phar 的压缩文件(通常是ZIP格式)。
+目的在于模仿 Java 的 .jar, 不对，目的是为了让发布PHP应用程序更加方便。同时Phar还提供了数字签名验证等功能。
+
+
+.phar 文件可以像 .php 文件一样被 PHP 引擎解释执行，同时你还可以写出这样的代码来包含 .phar 中的代码。
+
+```php
+
+<?php
+
+    require "xxx.phar";
+    require "phar://xxx.phar/aa/bb.php";
+    
+?>
+
+```
+
+更多信息请参见[官网](http://www.php.net/manual/zh/phar.using.intro.php);
+
+
+----
+
+>PHP5.4
+
+>2012 ~ 2013
+
+
+**```Short Open Tag```**
+
+Short Open Tag 自PHP5.4起总是可用。
+
+在这里集中讲一下有关 PHP 起止标签的问题。即：
+
+```php
+
+<?php
+
+    //code
+    
+?>
+
+```
+
+通常就是上面的形式，除此之外还有一种简写形式：
+
+```php
+
+<? /*  code  */ ?>
+
+```
+
+还可以把
+
+```php
+
+<? echo $foo;?>
+
+```
+
+简写成：
+
+```php
+
+<?=$foo?>
+
+```
+
+这种简写形式被称为 Short Open Tag, 在 PHP5.3 起被默认开启，在 PHP5.4 起总是可用。
+使用这种简写形式在 HTML 中嵌入 PHP 变量将会非常方便。
+
+
+对于纯 PHP 文件(如类实现文件), PHP 官方建议顶格写起始标记，同时 ```省略``` 结束标记。
+这样可以确保整个 PHP 文件都是 PHP 代码，没有任何输出，否则当你包含该文件后，设置 Header 和 Cookie 时会遇到一些麻烦（Header 和 Cookie 必须在输出任何内容之前被发送）。
+
+
+**```数组简写形式```**
+
+
+这是非常方便的一项特征！
+
+```php
+
+<?php
+    
+    //原来数组的写法
+    $arr = array("key" => "value", "key2" => "value2");
+    
+    //简写形式
+    $arr = ["key" => "value", "key2" => "value2"];
+
+?>
+
+
+```
+
+
+**```Traits```**
+
+所谓Traits就是“构件”，是用来替代继承的一种机制。PHP中无法进行多重继承，但一个类可以包含多个Traits.
+
+详细内部请看[这里](/php-trait-details/)还有[这里](/php-using-the-trait-implements-the-singleton-pattern/)
+
+
+**```内置 Web 服务器```**
+
+PHP从5.4开始内置一个轻量级的Web服务器，不支持并发，定位是用于开发和调试环境。
+
+在开发环境使用它的确非常方便。
+
+```bash
+
+php -S localhost:8000
+
+```
+
+这样就在当前目录建立起了一个Web服务器，你可以通过 http://localhost:8000/ 来访问。
+
+其中localhost是监听的ip，8000是监听的端口，可以自行修改。
+
+很多应用中，都会进行URL重写，所以PHP提供了一个设置路由脚本的功能:
+
+
+```bash
+
+php -S localhost:8000 index.php
+
+```
+
+这样一来，所有的请求都会由index.php来处理。
+
+
+**```细节修改```**
+
+
+**PHP5.4 新增了动态访问静态方法的方式：**
+
+```php
+    
+<?php
+    
+    $func = "Foo";
+    
+    A::{$func}();   // 相当于 A::Foo();
+    
+?>
+
+```
+
+**新增在实例化时访问类成员的特征：**
+
+```php
+    
+<?php
+    
+    (new MyClass())->foo();
+        
+?>
+
+```
+
+**新增支持对函数返回数组的成员访问解析(这种写法在之前版本是会报错的)：**
+
+
+```php
+    
+<?php
+    
+    var_dump( func()[0] );      //如果func返回一个数据，这里直接取第0项元素
+        
+?>
+
+```
+
+----
+
+>PHP5.5
+
+>2013起
+
+**```yield关键字```**
+
+yield关键字用于当函数需要返回一个迭代器的时候，逐个返回值。
+
+
+```php
+ 
+ <?php
+    
+    function number10(){
+        for($i=0; $i<10; $i++){
+            yield $i;
+        }
+    }
+    
+    foreach(number10() as $v){
+        echo $v.PHP_EOL;
+    }
+    
+ ?>
+ 
+```
+
+该函数返回一个迭代器对象。
+
+
+```list()用于foreach```
+
+该特性可以在foreach中解析嵌套的数组：
+
+```php
+
+<?php
+    
+    $arr = [
+        [1,3,3],
+        ["a","b","c"]
+    ];
+    
+    foreach ($arr as list($a, $b, $c)){
+        echo $a."==".$b."==".$c.PHP_EOL;
+    }
+    
+?>
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
