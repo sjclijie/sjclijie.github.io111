@@ -380,7 +380,7 @@
 
 <p>在匿名函数的参数列表后，我们用use关键字将匿名函数外的$num捕捉到了函数内部，以便我们知道该加多少。</p>
 
-<p><strong><code>魔术方法: \_\_invoke(), \_\_callStatic()</code></strong></p>
+<p><strong><code>魔术方法: __invoke(), __callStatic()</code></strong></p>
 
 <p>PHP的面向对象体系中，提供了若干“魔术方法”，用于实现类似其它语言中的“重载”，如访问不存在的方法、属性时触发某个魔术方法。</p>
 
@@ -544,6 +544,377 @@
 <p><strong><code>Heredoc 和 Nowdoc</code></strong></p>
 
 <p>PHP5.3对Heredoc以及Nowdoc进行了一些改进，它们都用于在PHP中嵌入大段的代码。</p>
+
+<p>Heredoc的行为类似于一个双引号字符串：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="nv">$name</span> <span class="o">=</span> <span class="s2">&quot;Jaylee&quot;</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">TEXT</span>
+
+<span class="nx">my</span> <span class="nx">name</span> <span class="nx">is</span> <span class="s2">&quot;</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nx">TEXT</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>Heredoc以三个尖括号开始，后面跟一个标识符（TEXT）,直到一个同样的定格标识符（不能缩进）结束。
+就像双引号字符串一样，其中可以嵌入变量。</p>
+
+<p>Heredoc还可以用于函数参数，以及类成员初始化：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="o">&lt;&lt;&lt;</span><span class="nx">EOD</span>
+    <span class="nx">hello</span> <span class="nx">world</span>
+<span class="nx">EOD</span>
+<span class="p">);</span>
+
+
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+
+    <span class="k">const</span> <span class="no">name</span> <span class="o">=</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">EOD</span>
+<span class="nx">hello</span> <span class="nx">world</span>
+<span class="nx">EOD</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nv">$foo</span> <span class="o">=</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">EOD</span>
+<span class="nx">hello</span> <span class="nx">world2</span>
+<span class="nx">EOD</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>Nowdoc的行为像一个单引号字符串，不能在其中嵌入变量，和Heredoc唯一的区别就是，三个尖括号的标识符要用单引号引起来：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="nv">$name</span> <span class="o">=</span> <span class="s2">&quot;Jaylee&quot;</span><span class="p">;</span>
+
+    <span class="k">echo</span> <span class="o">&lt;&lt;&lt;</span><span class="s1">&#39;EOD&#39;</span>
+
+<span class="nx">my</span> <span class="nx">name</span> <span class="nx">is</span> <span class="s2">&quot;</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nx">EOD</span><span class="p">;</span>
+
+    <span class="c1">//输出：my name is &quot;{$name}&quot;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>用const定义常量</code></strong></p>
+
+<p>php5.3起同时支持在全局命名空间和类中使用 const 定义常量。</p>
+
+<p>旧式风格：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="nb">define</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span><span class="s2">&quot;jaylee&quot;</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>新式风格：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">const</span> <span class="no">NAME</span> <span class="o">=</span> <span class="s2">&quot;Jaylee&quot;</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>const形式仅适用于常量，不适用于运行时才能求值的表达式。</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">const</span> <span class="no">VALUE</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span> <span class="c1">//正确</span>
+
+    <span class="k">const</span> <span class="no">VALUE</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span> <span class="c1">//错误</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>三元运算符的简写形式</code></strong></p>
+
+<p>旧式风格：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">echo</span> <span class="nv">$a</span> <span class="o">?</span> <span class="nv">$a</span> <span class="o">:</span> <span class="s2">&quot;No VALUE&quot;</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>可以简写成：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">echo</span> <span class="nv">$a</span> <span class="o">?</span> <span class="o">:</span> <span class="s2">&quot;No Value&quot;</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>即如果省略三元运算符的第二个部分，会默认用第一个部分代替。</p>
+
+<p><strong><code>Phar</code></strong></p>
+
+<p>Phar即PHP Archive, 起初只是Pear中的一个库而已，后来在PHP5.3被重新编写成C扩展并内置到 PHP 中。
+Phar用来将多个 .php 脚本打包(也可以打包其他文件)成一个 .phar 的压缩文件(通常是ZIP格式)。
+目的在于模仿 Java 的 .jar, 不对，目的是为了让发布PHP应用程序更加方便。同时Phar还提供了数字签名验证等功能。</p>
+
+<p>.phar 文件可以像 .php 文件一样被 PHP 引擎解释执行，同时你还可以写出这样的代码来包含 .phar 中的代码。</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">require</span> <span class="s2">&quot;xxx.phar&quot;</span><span class="p">;</span>
+    <span class="k">require</span> <span class="s2">&quot;phar://xxx.phar/aa/bb.php&quot;</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>更多信息请参见<a href="http://www.php.net/manual/zh/phar.using.intro.php">官网</a>;</p>
+
+<hr>
+
+<blockquote>
+<p>PHP5.4</p>
+
+<p>2012 ~ 2013</p>
+</blockquote>
+
+<p><strong><code>Short Open Tag</code></strong></p>
+
+<p>Short Open Tag 自PHP5.4起总是可用。</p>
+
+<p>在这里集中讲一下有关 PHP 起止标签的问题。即：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="c1">//code</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>通常就是上面的形式，除此之外还有一种简写形式：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span> <span class="cm">/*  code  */</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>还可以把</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span> <span class="k">echo</span> <span class="nv">$foo</span><span class="p">;</span><span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>简写成：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span><span class="o">=</span><span class="nv">$foo</span><span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>这种简写形式被称为 Short Open Tag, 在 PHP5.3 起被默认开启，在 PHP5.4 起总是可用。
+使用这种简写形式在 HTML 中嵌入 PHP 变量将会非常方便。</p>
+
+<p>对于纯 PHP 文件(如类实现文件), PHP 官方建议顶格写起始标记，同时 <code>省略</code> 结束标记。
+这样可以确保整个 PHP 文件都是 PHP 代码，没有任何输出，否则当你包含该文件后，设置 Header 和 Cookie 时会遇到一些麻烦（Header 和 Cookie 必须在输出任何内容之前被发送）。</p>
+
+<p><strong><code>数组简写形式</code></strong></p>
+
+<p>这是非常方便的一项特征！</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="c1">//原来数组的写法</span>
+    <span class="nv">$arr</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">&quot;key&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;value2&quot;</span><span class="p">);</span>
+
+    <span class="c1">//简写形式</span>
+    <span class="nv">$arr</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;key&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;value2&quot;</span><span class="p">];</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>Traits</code></strong></p>
+
+<p>所谓Traits就是“构件”，是用来替代继承的一种机制。PHP中无法进行多重继承，但一个类可以包含多个Traits.</p>
+
+<p>详细内部请看<a href="/php-trait-details/">这里</a>还有<a href="/php-using-the-trait-implements-the-singleton-pattern/">这里</a></p>
+
+<p><strong><code>内置 Web 服务器</code></strong></p>
+
+<p>PHP从5.4开始内置一个轻量级的Web服务器，不支持并发，定位是用于开发和调试环境。</p>
+
+<p>在开发环境使用它的确非常方便。</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">php -S localhost:8000
+</code></pre></div>
+<p>这样就在当前目录建立起了一个Web服务器，你可以通过 <a href="http://localhost:8000/">http://localhost:8000/</a> 来访问。</p>
+
+<p>其中localhost是监听的ip，8000是监听的端口，可以自行修改。</p>
+
+<p>很多应用中，都会进行URL重写，所以PHP提供了一个设置路由脚本的功能:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">php -S localhost:8000 index.php
+</code></pre></div>
+<p>这样一来，所有的请求都会由index.php来处理。</p>
+
+<p><strong><code>细节修改</code></strong></p>
+
+<p><strong>PHP5.4 新增了动态访问静态方法的方式：</strong></p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="nv">$func</span> <span class="o">=</span> <span class="s2">&quot;Foo&quot;</span><span class="p">;</span>
+
+    <span class="nx">A</span><span class="o">::</span><span class="p">{</span><span class="nv">$func</span><span class="p">}();</span>   <span class="c1">// 相当于 A::Foo();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong>新增在实例化时访问类成员的特征：</strong></p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="p">(</span><span class="k">new</span> <span class="nx">MyClass</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">foo</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong>新增支持对函数返回数组的成员访问解析(这种写法在之前版本是会报错的)：</strong></p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="nb">var_dump</span><span class="p">(</span> <span class="nx">func</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>      <span class="c1">//如果func返回一个数据，这里直接取第0项元素</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<hr>
+
+<blockquote>
+<p>PHP5.5</p>
+
+<p>2013起</p>
+</blockquote>
+
+<p><strong><code>yield关键字</code></strong></p>
+
+<p>yield关键字用于当函数需要返回一个迭代器的时候，逐个返回值。</p>
+
+<p>该函数返回一个迭代器对象。</p>
+
+<p><strong><code>list()用于foreach</code></strong></p>
+
+<p>该特性可以在foreach中解析嵌套的数组：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="nv">$arr</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+    <span class="p">];</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nv">$c</span><span class="p">)){</span>
+        <span class="k">echo</span> <span class="nv">$a</span><span class="o">.</span><span class="s2">&quot;==&quot;</span><span class="o">.</span><span class="nv">$b</span><span class="o">.</span><span class="s2">&quot;==&quot;</span><span class="o">.</span><span class="nv">$c</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>结果：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    1==2==3
+    a==b==c
+</code></pre></div>
+<p><strong><code>其它细节修改</code></strong></p>
+
+<ul>
+<li><p>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQLi, 参见前文。</p></li>
+<li><p>不再支持Windows XP.</p></li>
+<li><p>可用 MyClass::class 取到一个类的完整限定名(包括命名空间)。</p></li>
+<li><p>empty() 支持表达式作为参数。</p></li>
+<li><p>try-catch 结构新增 finally 块。</p></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>PHP5.6</p>
+
+<p>2014年8月</p>
+</blockquote>
+
+<p><strong><code>常量表达式</code></strong></p>
+
+<p>在常量、属性声明和函数参数默认值声明时，以前版本只允许常量值，PHP5.6开始允许使用包含数字、字符串字面值和常量的标量表达式。</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">const</span> <span class="no">ONE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">const</span> <span class="no">TWO</span> <span class="o">=</span> <span class="nx">ONE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+
+        <span class="k">const</span> <span class="no">THREE</span> <span class="o">=</span> <span class="nx">TWO</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">const</span> <span class="no">ONE_THIRD</span> <span class="o">=</span> <span class="nx">ONE</span> <span class="o">/</span> <span class="nx">self</span><span class="o">::</span><span class="na">THREE</span><span class="p">;</span>
+
+        <span class="k">const</span> <span class="no">SENTENCE</span> <span class="o">=</span> <span class="s1">&#39;The value of &#39;</span><span class="o">.</span><span class="nx">self</span><span class="o">::</span><span class="na">THREE</span><span class="o">.</span><span class="s1">&#39; is 3&#39;</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">f</span> <span class="p">(</span><span class="nv">$a</span> <span class="o">=</span> <span class="nx">ONE</span> <span class="o">+</span> <span class="nx">self</span><span class="o">::</span><span class="na">THREE</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$a</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">echo</span> <span class="p">(</span><span class="k">new</span> <span class="nx">C</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">f</span><span class="p">();</span>  <span class="c1">// 4</span>
+
+    <span class="k">echo</span> <span class="nx">C</span><span class="o">::</span><span class="na">SENTENCE</span><span class="p">;</span>   <span class="c1">//The value of 3 is 3</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>可变参数函数</code></strong></p>
+
+<p>可变函数的实现，不再依赖<code>func_get_args()</code>函数，现在可以通过新增的操作符<code>...</code>更简洁地实现。</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">function</span> <span class="nf">foo</span><span class="p">(</span><span class="nv">$req</span><span class="p">,</span> <span class="nv">$opt</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="o">...</span><span class="nv">$params</span><span class="p">){</span>
+
+        <span class="nb">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\$</span><span class="s2">req: %d; </span><span class="se">\$</span><span class="s2">opt: %d; number of params: %d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="nv">$req</span><span class="p">,</span> <span class="nv">$opt</span><span class="p">,</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$params</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="nx">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nx">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+    <span class="nx">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="nx">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="nx">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>以上输出：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">    $req: 1; $opt: 0; number of params: 0</span>
+<span class="x">    $req: 1; $opt: 2; number of params: 0</span>
+<span class="x">    $req: 1; $opt: 2; number of params: 1</span>
+<span class="x">    $req: 1; $opt: 2; number of params: 2</span>
+<span class="x">    $req: 1; $opt: 2; number of params: 3</span>
+</code></pre></div>
+<p><strong><code>参数解包功能</code></strong></p>
+
+<p>在调用函数时，通过<code>...</code>操作符可以把数组或者可遍历对象解包到参数列表，这和Ruby等语言中的扩张(splat)操作符类似。</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nv">$c</span><span class="p">){</span>
+        <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span> <span class="o">+</span> <span class="nv">$c</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$operators</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+
+    <span class="k">echo</span> <span class="nx">add</span><span class="p">(</span><span class="o">...</span><span class="nv">$operators</span><span class="p">);</span>    <span class="c1">//6</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>导入函数和常量</code></strong></p>
+
+<p>use 操作符开始支持函数和常量的导入。 <code>use function</code> 和 <code>use const</code> 结构的用法的示例：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">namespace</span> <span class="nx">cc\jaylee</span> <span class="p">{</span>
+
+        <span class="k">const</span> <span class="no">FOO</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+
+        <span class="k">function</span> <span class="nf">f</span><span class="p">(){</span>
+            <span class="k">echo</span> <span class="nx">__FUNCTION__</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">namespace</span> <span class="p">{</span>
+
+        <span class="k">use</span> <span class="k">const</span> <span class="no">cc\jaylee\FOO</span><span class="p">;</span>
+        <span class="k">use</span> <span class="k">function</span> <span class="nf">cc\jaylee\f</span><span class="p">;</span>
+
+        <span class="k">echo</span> <span class="nx">FOO</span><span class="p">;</span>   <span class="nx">\\</span> <span class="mi">11</span>
+
+        <span class="nx">f</span><span class="p">();</span>        <span class="nx">\\</span> <span class="nx">cc\jaylee\f</span>
+    <span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><strong><code>phpdbg</code></strong></p>
+
+<p>PHP自带了一个交互式调试器phpdbg，它是一个SAPI模块，更多信息参考<a href="http://phpdbg.com/docs"> phpdbg 文档</a>。</p>
+
+<p><strong><code>php://input可以被复用</code></strong></p>
+
+<p><code>php://input</code> 开始支持多次打开和读取，这给处理POST数据的模块的内存占用带来了极大的改善。</p>
+
+<p><strong><code>大文件上传支持</code></strong></p>
+
+<p>可以上传超过2G的大文件。</p>
+
+<p><strong><code>GMP支持操作符重载</code></strong></p>
+
+<p><strong><code>新增gost-crypto哈希算法</code></strong></p>
+
+<p><strong><code>SSL/TLS改进</code></strong></p>
 
 				</section>
 			</div>
