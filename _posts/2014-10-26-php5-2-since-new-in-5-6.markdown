@@ -440,6 +440,97 @@ PHP的面向对象体系中，提供了若干“魔术方法”，用于实现�
 
 这样可以实现类定义文件分组存储，按需自动加载。
 
+**```延迟静态绑定```**
+
+PHP的的 OPP 机制，具有继承和类似虚函数的功能，例如如下的代码：
+
+```php
+
+<?php
+    
+    class A {
+
+        public function callFoo(){
+            echo $this->foo();
+        }
+
+        public function foo(){
+            return "A::foo()";
+        }
+    }
+
+    class B extends A {
+
+        public function foo(){
+            return "B::foo()";
+        }
+    }
+
+    $b = new B();
+
+    $b->callFoo();      //B::foo();
+?>
+
+```
+
+可以看到，当在A中使用了```$this->foo()```时，体现了“虚函数”的机制，实际调用的是B::foo()，然后如果将所有的函数都改为静态函数时：
+
+```php
+
+<?php
+
+    class A {
+
+        static public function callFoo(){
+            echo self::foo();
+        }
+
+        static public function foo(){
+            return "A::foo()";
+        }
+    }
+
+    class B extends A {
+
+        static public function foo(){
+            return "B::foo()";
+        }
+    }
+
+    B::callFoo();   //A::foo()
+?>
+
+```
+
+这时，输出的会是```A::foo()```，这是因为self的语义本来就是“当前类”，所有在PHP5.3给static关键赋予了一个新的功能：延迟静态绑定：
+
+```php
+
+<?php
+
+    class A {
+
+        static public function callFoo(){
+            echo static::foo();
+        }
+
+        //...
+    }
+
+?>
+
+```
+
+将self改为static之后，就会像预期一样输出```B::foo```了。
+
+
+**```Heredoc 和 Nowdoc```**
+
+PHP5.3对Heredoc以及Nowdoc进行了一些改进，它们都用于在PHP中嵌入大段的代码。
+
+
+
+
 
 
 
