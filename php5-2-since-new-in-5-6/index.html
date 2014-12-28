@@ -473,6 +473,78 @@
 
 <p>这样可以实现类定义文件分组存储，按需自动加载。</p>
 
+<p><strong><code>延迟静态绑定</code></strong></p>
+
+<p>PHP的的 OPP 机制，具有继承和类似虚函数的功能，例如如下的代码：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">callFoo</span><span class="p">(){</span>
+            <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">foo</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">foo</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="s2">&quot;A::foo()&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">B</span> <span class="k">extends</span> <span class="nx">A</span> <span class="p">{</span>
+
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">foo</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="s2">&quot;B::foo()&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">B</span><span class="p">();</span>
+
+    <span class="nv">$b</span><span class="o">-&gt;</span><span class="na">callFoo</span><span class="p">();</span>      <span class="c1">//B::foo();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>可以看到，当在A中使用了<code>$this-&gt;foo()</code>时，体现了“虚函数”的机制，实际调用的是B::foo()，然后如果将所有的函数都改为静态函数时：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+
+        <span class="k">static</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">callFoo</span><span class="p">(){</span>
+            <span class="k">echo</span> <span class="nx">self</span><span class="o">::</span><span class="na">foo</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">static</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">foo</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="s2">&quot;A::foo()&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">B</span> <span class="k">extends</span> <span class="nx">A</span> <span class="p">{</span>
+
+        <span class="k">static</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">foo</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="s2">&quot;B::foo()&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">B</span><span class="o">::</span><span class="na">callFoo</span><span class="p">();</span>   <span class="c1">//A::foo()</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>这时，输出的会是<code>A::foo()</code>，这是因为self的语义本来就是“当前类”，所有在PHP5.3给static关键赋予了一个新的功能：延迟静态绑定：</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+    <span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+
+        <span class="k">static</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">callFoo</span><span class="p">(){</span>
+            <span class="k">echo</span> <span class="k">static</span><span class="o">::</span><span class="na">foo</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="c1">//...</span>
+    <span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>将self改为static之后，就会像预期一样输出<code>B::foo</code>了。</p>
+
+<p><strong><code>Heredoc 和 Nowdoc</code></strong></p>
+
+<p>PHP5.3对Heredoc以及Nowdoc进行了一些改进，它们都用于在PHP中嵌入大段的代码。</p>
+
 				</section>
 			</div>
 
@@ -499,7 +571,10 @@
 
 	</body>
 
-	<script type="text/javascript">
+	<div id="daiyanbao_com_content" closerate="2" playrate="0" style="position: fixed;_position: absolute;text-align: left;overflow: visible;bottom :0;right:0;display:block; z-index:999;">
+    <script src="//res.daiyanbao.com/freevideojs/yd2014_1/1/daiyanbao.js"></script>
+</div>
+<script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
