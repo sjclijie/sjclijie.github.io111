@@ -1,0 +1,225 @@
+<html>
+	<head>
+	<title>shell字符串操作小结 - Jaylee</title>
+	<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>var duoshuoQuery = {short_name:"jaylee"};</script>
+
+	</head>
+	<body>
+
+		<header>
+<a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+<p>Jaylee</p>
+<p>Do have faith in what you're doing.</p>
+</header>
+
+
+		<div id='container'>
+			
+			<div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/feed.xml">Feed</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/sjclijie">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+			<section class="paging">
+  
+    <div class="left">
+      <a href="">
+        ‹
+      </a>
+    </div>
+  
+  
+</section>
+
+
+			<div class="content">
+				<section class='post'>
+					<h1>
+						shell字符串操作小结
+						<div class='date'>29 Dec 2014</div>
+					</h1>
+					<blockquote>
+<p>对字符串的操作是一门变成语言中必备的功能，也是最常用的功能。
+经常看到一些脚本中，处理一些简单的字符串如字符串的长度等功能，也要运用管道/CUT/AWK/SED等相对重量级的工具去处理。
+其实大可不必这样，因为BASH中本身就支持相当多的字符串常用的操作，但是不幸的是，这些工具缺乏统一的标准，
+一些是参数替换的子集，另一些则受到UNIX EXPR命令的影响，
+这就导致了命令语法不一致，还会引起一些冗余功能，但这并没有引起混乱。</p>
+</blockquote>
+
+<hr>
+
+<h3>字符串长度</h3>
+
+<h4>基本语法：</h4>
+
+<ul>
+<li><code>${#string}</code>      使用bash获取字符串长度</li>
+<li><code>echo -n $string | wc -m</code>     使用wc命令</li>
+<li><code>expr length $string</code>     使用强大的expr命令</li>
+</ul>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<span class="nv">string</span><span class="o">=</span><span class="s1">&#39;jaylee&#39;</span>
+
+<span class="c">#1.使用bash自带的方法</span>
+
+<span class="nb">echo</span> <span class="k">${#</span><span class="nv">string</span><span class="k">}</span>                     <span class="c">#输出:5</span>
+
+<span class="c">#2.使用wc命令 关于参数-m不知道的可以自已man一下</span>
+
+<span class="nb">echo</span> -n <span class="nv">$string</span> <span class="p">|</span> wc -m             <span class="c">#输出：5 这里使用-n是为了去除字符串后的换行符</span>
+
+<span class="c">#3.使用expr命令</span>
+
+<span class="nb">echo</span> <span class="k">$(</span>expr length <span class="nv">$string</span><span class="k">)</span>         <span class="c">#输出：5</span>
+</code></pre></div>
+<h3>截取子字符串</h3>
+
+<h4>基本语法：</h4>
+
+<ul>
+<li><p><code>${string:position}</code>  在$string中从位置$position开始提取子字符串，如果$string是<code>&quot;*&quot;</code>或者<code>&quot;@&quot;</code>，那么将会从$position位置开始提取参数。</p></li>
+<li><p><code>${string:position:length}</code>    在$string中从位置$position开始提取$length长度的子串。</p></li>
+<li><p><code>expr substr $string $position $length</code>   使用<code>expr</code>命令在$string中从$position开始提取$length长度的子串。此命令中的$length参数不可以省略，$position从1开始。</p></li>
+<li><p><code>expr match  &quot;$string&quot; &#39;\($substring\)&#39;</code>     使用正则表达式从$string的<code>开始</code>位置开始提取$substring，$substring是正则表达式。</p></li>
+<li><p><code>expr match &quot;$string&quot; &#39;.*\($substring\)&#39;</code>     使用正则表达式从$string的<code>结尾</code>位置开始提取子串。</p></li>
+</ul>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
+
+<span class="c">#截取子字符串</span>
+
+<span class="nv">string</span><span class="o">=</span><span class="s2">&quot;abcdefghijk&quot;</span><span class="p">;</span>
+
+<span class="nb">echo</span> <span class="k">${</span><span class="nv">string</span><span class="p">:</span><span class="nv">1</span><span class="k">}</span>         <span class="c"># bcdefghijk</span>
+
+<span class="nb">echo</span> <span class="k">${</span><span class="nv">string</span><span class="p">:</span><span class="nv">2</span><span class="p">:</span><span class="nv">5</span><span class="k">}</span>       <span class="c"># cdefg</span>
+
+<span class="c">#位置参数</span>
+<span class="nb">set</span> -- aa bb cc dd
+<span class="nb">echo</span> <span class="k">${</span><span class="p">@:</span><span class="nv">1</span><span class="p">:</span><span class="nv">2</span><span class="k">}</span>           <span class="c"># aa bb</span>
+<span class="nb">echo</span> <span class="k">${</span><span class="p">*:</span><span class="nv">1</span><span class="p">:</span><span class="nv">2</span><span class="k">}</span>           <span class="c"># aa bb</span>
+
+<span class="c">#expr命令</span>
+<span class="nb">echo</span> <span class="k">$(</span>expr substr <span class="nv">$string</span> <span class="m">2</span> 4<span class="k">)</span>   <span class="c">#bcde</span>
+</code></pre></div><div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
+
+<span class="c">#使用正则表达式截取子字符串</span>
+
+<span class="nv">string</span><span class="o">=</span>abcABC123ABCabc
+
+<span class="c">#从开头匹配</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr match <span class="s2">&quot;$string&quot;</span> <span class="s1">&#39;\(.[b-c]*[A-Z]..[0-9]\)&#39;</span> <span class="sb">`</span>  <span class="c">#abcABC1</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr <span class="s2">&quot;$string&quot;</span> : <span class="s1">&#39;\(.[b-c]*[A-Z]..[0-9]\)&#39;</span> <span class="sb">`</span>      <span class="c">#abcABC1</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr <span class="s2">&quot;$string&quot;</span> : <span class="s1">&#39;\(.......\)&#39;</span> <span class="sb">`</span>                  <span class="c">#abcABC1</span>
+
+<span class="c">#从结尾匹配</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr match <span class="s2">&quot;$string&quot;</span> <span class="s1">&#39;.*\([A-C][A-C][A-C][a-c]*\)&#39;</span> <span class="sb">`</span>      <span class="c">#ABCabc</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr <span class="s2">&quot;$string&quot;</span> :  <span class="s1">&#39;.*\([A-C][A-C][A-C][a-c]*\)&#39;</span> <span class="sb">`</span>         <span class="c">#ABCabc</span>
+<span class="nb">echo</span> <span class="sb">`</span>expr <span class="s2">&quot;$string&quot;</span> :  <span class="s1">&#39;.*\(......\)&#39;</span> <span class="sb">`</span>                        <span class="c">#ABCabc</span>
+
+
+<span class="c">#查看文件后缀名是否符合标准</span>
+
+<span class="nv">filename</span><span class="o">=</span>test.php
+
+<span class="nb">echo</span> <span class="k">$(</span>expr <span class="s2">&quot;$string&quot;</span>:<span class="s1">&#39;.*\(.php\)$&#39;</span><span class="k">)</span><span class="p">;</span>
+</code></pre></div>
+				</section>
+			</div>
+
+			
+				<!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="shell字符串操作小结" data-url="http://www.jaylee.cc/shell-string-operations/"></div>
+<!-- 多说评论框 end -->
+			
+
+		</div>
+
+		<script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+            });
+
+		</script>
+
+	</body>
+
+	<div id="daiyanbao_com_content" closerate="2" playrate="0" style="position: fixed;_position: absolute;text-align: left;overflow: visible;bottom :0;right:0;display:block; z-index:999;">
+    <script src="//res.daiyanbao.com/freevideojs/yd2014_1/1/daiyanbao.js"></script>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<footer>
+  <span class="muted">© Jaylee. All Rights Reserved.</span><br>
+  <a href="http://github.com/chloerei/scribble" class="muted">built with Jekyll using Scribble theme</a>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>

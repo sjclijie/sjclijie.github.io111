@@ -7,6 +7,99 @@
     <atom:link href="http://www.jaylee.cc/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>shell字符串操作小结</title>
+        <description>&lt;blockquote&gt;
+&lt;p&gt;对字符串的操作是一门变成语言中必备的功能，也是最常用的功能。
+经常看到一些脚本中，处理一些简单的字符串如字符串的长度等功能，也要运用管道/CUT/AWK/SED等相对重量级的工具去处理。
+其实大可不必这样，因为BASH中本身就支持相当多的字符串常用的操作，但是不幸的是，这些工具缺乏统一的标准，
+一些是参数替换的子集，另一些则受到UNIX EXPR命令的影响，
+这就导致了命令语法不一致，还会引起一些冗余功能，但这并没有引起混乱。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr&gt;
+
+&lt;h3&gt;字符串长度&lt;/h3&gt;
+
+&lt;h4&gt;基本语法：&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;${#string}&lt;/code&gt;      使用bash获取字符串长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;echo -n $string | wc -m&lt;/code&gt;     使用wc命令&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;expr length $string&lt;/code&gt;     使用强大的expr命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;jaylee&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#1.使用bash自带的方法&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;                     &lt;span class=&quot;c&quot;&gt;#输出:5&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#2.使用wc命令 关于参数-m不知道的可以自已man一下&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; -n &lt;span class=&quot;nv&quot;&gt;$string&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; wc -m             &lt;span class=&quot;c&quot;&gt;#输出：5 这里使用-n是为了去除字符串后的换行符&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#3.使用expr命令&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;expr length &lt;span class=&quot;nv&quot;&gt;$string&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;#输出：5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;截取子字符串&lt;/h3&gt;
+
+&lt;h4&gt;基本语法：&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;${string:position}&lt;/code&gt;  在$string中从位置$position开始提取子字符串，如果$string是&lt;code&gt;&amp;quot;*&amp;quot;&lt;/code&gt;或者&lt;code&gt;&amp;quot;@&amp;quot;&lt;/code&gt;，那么将会从$position位置开始提取参数。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;${string:position:length}&lt;/code&gt;    在$string中从位置$position开始提取$length长度的子串。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;expr substr $string $position $length&lt;/code&gt;   使用&lt;code&gt;expr&lt;/code&gt;命令在$string中从$position开始提取$length长度的子串。此命令中的$length参数不可以省略，$position从1开始。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;expr match  &amp;quot;$string&amp;quot; &amp;#39;\($substring\)&amp;#39;&lt;/code&gt;     使用正则表达式从$string的&lt;code&gt;开始&lt;/code&gt;位置开始提取$substring，$substring是正则表达式。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;expr match &amp;quot;$string&amp;quot; &amp;#39;.*\($substring\)&amp;#39;&lt;/code&gt;     使用正则表达式从$string的&lt;code&gt;结尾&lt;/code&gt;位置开始提取子串。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#截取子字符串&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;abcdefghijk&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# bcdefghijk&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;       &lt;span class=&quot;c&quot;&gt;# cdefg&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#位置参数&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -- aa bb cc dd
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;@:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;# aa bb&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;# aa bb&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#expr命令&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;expr substr &lt;span class=&quot;nv&quot;&gt;$string&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt; 4&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;#bcde&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#使用正则表达式截取子字符串&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;abcABC123ABCabc
+
+&lt;span class=&quot;c&quot;&gt;#从开头匹配&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr match &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;\(.[b-c]*[A-Z]..[0-9]\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#abcABC1&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; : &lt;span class=&quot;s1&quot;&gt;&amp;#39;\(.[b-c]*[A-Z]..[0-9]\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;      &lt;span class=&quot;c&quot;&gt;#abcABC1&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; : &lt;span class=&quot;s1&quot;&gt;&amp;#39;\(.......\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;                  &lt;span class=&quot;c&quot;&gt;#abcABC1&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#从结尾匹配&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr match &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;.*\([A-C][A-C][A-C][a-c]*\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;      &lt;span class=&quot;c&quot;&gt;#ABCabc&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; :  &lt;span class=&quot;s1&quot;&gt;&amp;#39;.*\([A-C][A-C][A-C][a-c]*\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;#ABCabc&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;expr &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt; :  &lt;span class=&quot;s1&quot;&gt;&amp;#39;.*\(......\)&amp;#39;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;                        &lt;span class=&quot;c&quot;&gt;#ABCabc&lt;/span&gt;
+
+
+&lt;span class=&quot;c&quot;&gt;#查看文件后缀名是否符合标准&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;test.php
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;expr &lt;span class=&quot;s2&quot;&gt;&amp;quot;$string&amp;quot;&lt;/span&gt;:&lt;span class=&quot;s1&quot;&gt;&amp;#39;.*\(.php\)$&amp;#39;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Mon, 29 Dec 2014 00:32:41 +0800</pubDate>
+        <link>http://www.jaylee.cc/shell-string-operations/</link>
+        <guid isPermaLink="true">http://www.jaylee.cc/shell-string-operations/</guid>
+      </item>
+    
+      <item>
         <title>PHP使用trait实现单例模式</title>
         <description>&lt;p&gt;&lt;code&gt;Traits&lt;/code&gt; 是PHP5.4新添加的一个特性，提高了代码的重用性，也使得PHP能够实现类似Java，C++的多重继承。&lt;/p&gt;
 
