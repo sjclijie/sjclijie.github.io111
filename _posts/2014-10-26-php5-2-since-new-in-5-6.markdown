@@ -856,76 +856,198 @@ php -S localhost:8000 index.php
 
 yield关键字用于当函数需要返回一个迭代器的时候，逐个返回值。
 
-
-```php
- 
- <?php
-    
-    function number10(){
-        for($i=0; $i<10; $i++){
-            yield $i;
-        }
-    }
-    
-    foreach(number10() as $v){
-        echo $v.PHP_EOL;
-    }
-    
- ?>
- 
-```
-
 该函数返回一个迭代器对象。
 
 
-```list()用于foreach```
+**``` list()用于foreach ```**
 
 该特性可以在foreach中解析嵌套的数组：
 
 ```php
 
 <?php
-    
+
     $arr = [
-        [1,3,3],
+        [1,2,3],
         ["a","b","c"]
     ];
-    
+
     foreach ($arr as list($a, $b, $c)){
         echo $a."==".$b."==".$c.PHP_EOL;
     }
-    
+
+?>
+
+```
+
+结果：
+
+```text
+
+    1==2==3
+    a==b==c
+
+```
+
+**```其它细节修改```**
+
+- 不推荐使用 mysql 函数，推荐使用 PDO 或 MySQLi, 参见前文。
+
+- 不再支持Windows XP.
+
+- 可用 MyClass::class 取到一个类的完整限定名(包括命名空间)。
+
+- empty() 支持表达式作为参数。
+
+- try-catch 结构新增 finally 块。
+
+
+----
+
+>PHP5.6
+
+>2014年8月
+
+**```常量表达式```**
+
+在常量、属性声明和函数参数默认值声明时，以前版本只允许常量值，PHP5.6开始允许使用包含数字、字符串字面值和常量的标量表达式。
+
+```php
+
+<?php
+
+    const ONE = 1;
+    const TWO = ONE * 2;
+
+    class C {
+
+        const THREE = TWO + 1;
+
+        const ONE_THIRD = ONE / self::THREE;
+
+        const SENTENCE = 'The value of '.self::THREE.' is 3';
+
+        public function f ($a = ONE + self::THREE) {
+            return $a;
+        }
+    }
+
+    echo (new C)->f();  // 4
+
+    echo C::SENTENCE;   //The value of 3 is 3
+
 ?>
 
 ```
 
 
+**```可变参数函数```**
+
+可变函数的实现，不再依赖```func_get_args()```函数，现在可以通过新增的操作符```...```更简洁地实现。
+
+```php
+
+<?php
+
+    function foo($req, $opt = null, ...$params){
+
+        printf("\$req: %d; \$opt: %d; number of params: %d\n",
+                $req, $opt, count($params));
+    }
+
+    foo(1);
+    foo(1,2);
+    foo(1, 2, 3);
+    foo(1, 2, 3, 4);
+    foo(1, 2, 3, 4, 5);
+
+?>
+
+```
+
+以上输出：
+
+```php
+
+    $req: 1; $opt: 0; number of params: 0
+    $req: 1; $opt: 2; number of params: 0
+    $req: 1; $opt: 2; number of params: 1
+    $req: 1; $opt: 2; number of params: 2
+    $req: 1; $opt: 2; number of params: 3
+
+```
+
+**```参数解包功能```**
+
+在调用函数时，通过```...```操作符可以把数组或者可遍历对象解包到参数列表，这和Ruby等语言中的扩张(splat)操作符类似。
+
+```php
+
+<?php
+
+    function add($a, $b, $c){
+        return $a + $b + $c;
+    }
+
+    $operators = [1, 2, 3];
+
+    echo add(...$operators);    //6
+?>
+
+```
+
+**```导入函数和常量```**
+
+use 操作符开始支持函数和常量的导入。 ```use function``` 和 ```use const``` 结构的用法的示例：
+
+```php
+
+<?php
+
+    namespace cc\jaylee {
+
+        const FOO = 11;
+
+        function f(){
+            echo __FUNCTION__;
+        }
+    }
+
+    namespace {
+
+        use const cc\jaylee\FOO;
+        use function cc\jaylee\f;
+
+        echo FOO;   \\ 11
+
+        f();        \\ cc\jaylee\f
+    }
+
+?>
+
+```
 
 
+**```phpdbg```**
+
+PHP自带了一个交互式调试器phpdbg，它是一个SAPI模块，更多信息参考[ phpdbg 文档](http://phpdbg.com/docs)。
 
 
+**```php://input可以被复用```**
+
+```php://input``` 开始支持多次打开和读取，这给处理POST数据的模块的内存占用带来了极大的改善。
 
 
+**```大文件上传支持```**
+
+可以上传超过2G的大文件。
 
 
+**```GMP支持操作符重载```**
 
+**```新增gost-crypto哈希算法```**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+**```SSL/TLS改进```**
 
 
 
