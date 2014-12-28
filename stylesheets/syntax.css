@@ -3,8 +3,9 @@ code{
     color: #c7254e;
     padding: 2px 4px;
     border-radius: 4px;
+    text-shadow: none;
 }
-.highlight { font-size: 13px; }
+.highlight { font-size: 13px;}
 div.highlight code { padding: 0; border-radius: 0; background: none;}
 div.highlight .c { color: #75715e } /* Comment */
 div.highlight .err { color: #960050; background-color: #1e0010 } /* Error */
