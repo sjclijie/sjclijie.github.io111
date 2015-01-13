@@ -31,6 +31,15 @@ var App = function(){
 		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
 	};
 
+    var theater = function(){
+        
+        var t = new TheaterJs();
+
+        t.describe("desc",.8,"#blog-desc");
+
+        t.write("desc:Do have faith in what you're doing.");
+    }
+
 	return {
 		
 		mapKeySupport: function (){
@@ -43,7 +52,10 @@ var App = function(){
 
 		initDuoshuo: function(){
 			duoshuo();
-		}
-	};
+		},
 
+        initTheater: function(){
+            theater();
+        }
+	};
 }();
