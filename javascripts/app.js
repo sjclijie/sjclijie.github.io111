@@ -33,7 +33,7 @@ var App = function(){
 
     var theater = function(){
         
-        var t = new TheaterJs();
+        var t = new TheaterJS();
 
         t.describe("desc",.8,"#blog-desc");
 
