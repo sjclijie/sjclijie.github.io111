@@ -1,13 +1,14 @@
---
+---
 layout: page
-title: About
-comments: true 
+title: "About"
+date: 2014-10-26 17:59:46 +0800
+comments: true
 ---
 
-## Create by Jaylee
+## Create by [Jaylee](mailto:sjclijie@vip.qq.com)
 
-This theme is made by me. You have a nice day. ♥
+Web Developer
 
-## Modify by Rei
+[Modify by Rei](http://chloerei.com)
 
-http://chloerei.com
+
