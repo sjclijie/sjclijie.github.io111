@@ -217,11 +217,6 @@ footer {
          -o-transition: all .25s linear;
             transition: all .25s linear;
 }
-
-#container .nav ul li a:hover{
-    background: rgba(255,255,255,0.8);
-}
-
     /*
     #container .block:first-child, #container .block + .block {
       border-top: 0; }
@@ -456,3 +451,16 @@ figure {
   figure figcaption {
     font-size: 16px;
     margin-top: 1em; }
+
+#particles {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:-10;
+}
+
+#particles canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}

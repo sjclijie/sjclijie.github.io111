@@ -1,3 +1,6 @@
+<div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
 <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
@@ -6,6 +9,24 @@
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
     })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
 </script>
 <footer>
   <span class="muted">© {{ site.signoff }}. All Rights Reserved.</span><br>
