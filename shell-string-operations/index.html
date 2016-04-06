@@ -80,11 +80,17 @@
 			<section class="paging">
   
     <div class="left">
-      <a href="">
+      <a href="/linux-info/">
         ‹
       </a>
     </div>
   
+  
+    <div class="right">
+      <a href="/php-using-the-trait-implements-the-singleton-pattern/">
+        ›
+      </a>
+    </div>
   
 </section>
 
@@ -114,7 +120,7 @@
 <li><code>echo -n $string | wc -m</code>     使用wc命令</li>
 <li><code>expr length $string</code>     使用强大的expr命令</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+<div class="highlight"><pre><code class="bash language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
 
 <span class="nv">string</span><span class="o">=</span><span class="s1">&#39;jaylee&#39;</span>
 
@@ -141,7 +147,7 @@
 <li><p><code>expr match  &quot;$string&quot; &#39;\($substring\)&#39;</code>     使用正则表达式从$string的<code>开始</code>位置开始提取$substring，$substring是正则表达式。</p></li>
 <li><p><code>expr match &quot;$string&quot; &#39;.*\($substring\)&#39;</code>     使用正则表达式从$string的<code>结尾</code>位置开始提取子串。</p></li>
 </ul>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
 
 <span class="c">#截取子字符串</span>
 
@@ -157,8 +163,8 @@
 <span class="nb">echo</span> <span class="k">${</span><span class="p">*:</span><span class="nv">1</span><span class="p">:</span><span class="nv">2</span><span class="k">}</span>           <span class="c"># aa bb</span>
 
 <span class="c">#expr命令</span>
-<span class="nb">echo</span> <span class="k">$(</span>expr substr <span class="nv">$string</span> <span class="m">2</span> 4<span class="k">)</span>   <span class="c">#bcde</span>
-</code></pre></div><div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
+<span class="nb">echo</span> <span class="k">$(</span>expr substr <span class="nv">$string</span> 2 4<span class="k">)</span>   <span class="c">#bcde</span>
+</code></pre></div><div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
 
 <span class="c">#使用正则表达式截取子字符串</span>
 
