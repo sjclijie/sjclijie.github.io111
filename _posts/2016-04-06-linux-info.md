@@ -3,7 +3,7 @@ layout: post
 title: "全面了解Linux服务器"
 date: 2016-04-06 22:53:28 +0800
 comments: true
-categories: 
+categories: Linux
 ---
 
 
