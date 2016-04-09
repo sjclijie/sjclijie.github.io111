@@ -95,31 +95,34 @@
 						全面了解Linux服务器
 						<div class='date'>06 Apr 2016</div>
 					</h1>
-					<h4>查看Linux服务器的CPU的详细情况</h4>
+					<h3><code>查看Linux服务器的CPU的详细情况</code></h3>
 
-<ul>
-<li>具有相同core id的cpu是同一个core的超线程</li>
-<li>具有相同physical id的cpu是同一个cpu封装的线程或核心</li>
-</ul>
+<blockquote>
+<p>具有相同core id的cpu是同一个core的超线程</p>
 
-<h5>查看物理CPU的个数</h5>
+<p>具有相同physical id的cpu是同一个cpu封装的线程或核心</p>
+</blockquote>
+
+<p>1.<strong>查看物理CPU的个数</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">cat /proc/cpuinfo <span class="p">|</span> grep <span class="s1">&#39;physical id&#39;</span> <span class="p">|</span> sort <span class="p">|</span> uniq <span class="p">|</span> wc -l
 </code></pre></div>
-<h5>每个CPU中core的个数(即核心数)</h5>
+<p>2.<strong>每个CPU中core的个数(即核心数)</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">cat /proc/cpuinfo <span class="p">|</span> grep <span class="s1">&#39;cpu cores&#39;</span> <span class="p">|</span> uniq
 </code></pre></div>
-<h5>逻辑CPU的个数</h5>
+<p>3.<strong>逻辑CPU的个数</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">cat /proc/cpuinfo <span class="p">|</span> grep <span class="s1">&#39;processor&#39;</span> <span class="p">|</span> wc -l
 </code></pre></div>
 <hr>
 
-<h4>查看服务器的内存使用情况</h4>
+<h3><code>查看服务器的内存使用情况</code></h3>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># free -m</span>
              total       used       free     shared    buffers     cached
 Mem:           994        884        110          0        151        401
 -/+ buffers/cache:        330        664
 Swap:          499         98        401
 </code></pre></div>
+<h5>参数说明</h5>
+
 <ul>
 <li>total: 内存总数</li>
 <li>used: 已经使用的内存数</li>
@@ -132,11 +135,9 @@ Swap:          499         98        401
 
 <hr>
 
-<h4>查看Linux服务器的硬盘使用情况</h4>
+<h3><code>查看Linux服务器的硬盘使用情况</code></h3>
 
-<ol>
-<li>查看硬盘分区信息</li>
-</ol>
+<p>1.<strong>查看硬盘分区信息</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># fdisk -l</span>
 
 Disk /dev/xvda: 21.5 GB, 21474836480 bytes
@@ -149,17 +150,13 @@ Disk identifier: 0x00073f45
     Device Boot      Start         End      Blocks   Id  System
 /dev/xvda1   *           1        2611    20970496   83  Linux
 </code></pre></div>
-<ol>
-<li>检查文件系统的磁盘占用情况</li>
-</ol>
+<p>2.<strong>检查文件系统的磁盘占用情况</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># df -h</span>
 文件系统          容量  已用  可用 已用%% 挂载点
 /dev/xvda1             20G   11G  8.4G  56% /
 tmpfs                 498M     0  498M   0% /dev/shm
 </code></pre></div>
-<ol>
-<li>查看硬盘的I/O情况</li>
-</ol>
+<p>3.<strong>查看硬盘的I/O情况</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># iostat -d -x -k 1 5</span>
 Linux 2.6.32-358.6.2.el6.x86_64 <span class="o">(</span>Jaylee<span class="o">)</span>    2016年04月06日   _x86_64_    <span class="o">(</span>1 CPU<span class="o">)</span>
 
@@ -204,15 +201,11 @@ xvda      0.00    0.00   0.00  0.00  0.00  0.00   0.00     0.00     0.00   0.00 
 </ol>
 </blockquote>
 
-<ol>
-<li>查看Linux系统中某目录的大小</li>
-</ol>
+<p>4.<strong>查看Linux系统中某目录的大小</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># du -sh vimrc</span>
 292K    vimrc
 </code></pre></div>
-<ol>
-<li>查看占用空间最多的十个文件或目录</li>
-</ol>
+<p>5.<strong>查看占用空间最多的十个文件或目录</strong></p>
 <div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># du -cks * | sort -rn  | head -n 10</span>
 793396  总用量
 512004  swap
@@ -227,7 +220,149 @@ xvda      0.00    0.00   0.00  0.00  0.00  0.00   0.00     0.00     0.00   0.00 
 </code></pre></div>
 <hr>
 
-<h4>查看Linux服务器的平均负载</h4>
+<h3><code>查看Linux服务器的平均负载</code></h3>
+
+<blockquote>
+<p>有时间我们会觉得系统很慢, 但是又找不到原因，这时就要查看系统的平均负载了，看它是否有大量的进程在排队等待。特定时间间隔内运行队列中的平均进程数可以反映系统的繁忙程度，所以我们通常会在自己的网站变慢时第一时间查看系统负载，即CPU的平均负载。</p>
+</blockquote>
+
+<p>1.<strong>如何查看</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># uptime                                                                </span>
+ 20:52:10 up 153 days, 23:43,  5 users,  load average: 0.00, 0.00, 0.00
+</code></pre></div>
+<p>它表示的是过去的1分钟，5分钟和15分钟内进程队列中的平均进程数量。</p>
+
+<blockquote>
+<p>需要注意的是load average的输出值，这三个值的大小一般不能大于系统逻辑CPU的个数。例如，系统中有4个逻辑CPU时，如果这三个值长期大于4，说明CPU很繁忙，负载很高，可能会影响系统的性能。但是偶尔大于4时，倒不用担心，一般不会影响系统性能。</p>
+</blockquote>
+
+<p>2.<strong>用vmstat监控Linux系统的整体性能</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># vmstat 1 4                                                                                                                                 root@Jaylee</span>
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 0  0  83424  69568 141976 202468    0    0    44     9    3    1  0  0 97  2  0
+ 0  0  83424  69576 141976 202488    0    0     0    80  189  275  1  0 99  0  0
+ 0  0  83424  69608 141976 202488    0    0     0     0  145  255  0  0 100  0  0
+ 0  0  83424  69616 141976 202488    0    0     0     0  150  261  1  1 98  0  0
+------------------------------------------------------------
+</code></pre></div>
+<h5>参数说明</h5>
+
+<ul>
+<li>procs
+
+<ul>
+<li>r: 等待运行的进程数</li>
+<li>b: 处在非中断睡眠状态的进程数</li>
+</ul></li>
+<li>memory
+
+<ul>
+<li>swpd: 虚拟内存的使用情况</li>
+<li>free: 空闲的内存（单位：KB）</li>
+<li>buff: 用作缓存的内存数（单位：KB）</li>
+</ul></li>
+<li>swap
+
+<ul>
+<li>si: 从磁盘交换到内存的交换页数量（单位：KB/秒）</li>
+<li>so: 从内存交换到磁盘的交换页数量（单位：KB/秒）</li>
+</ul></li>
+<li>io
+
+<ul>
+<li>bi: 发送到块设备的块数（单位：块/秒）</li>
+<li>bo: 从块设备接收到的块数（单位：块/秒）</li>
+</ul></li>
+<li>system
+
+<ul>
+<li>in: 每秒的中断数，包括时钟中斷</li>
+<li>cs: 每秒的环境（上下文）切换次数</li>
+</ul></li>
+<li>cpu
+
+<ul>
+<li>us: CPU使用时间</li>
+<li>sy: CPU系统使用时间</li>
+<li>id：闲置时间</li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>标准情况下r和b的值应该为：r&lt;5, b=0</p>
+
+<p>如果us+sy<70，表示系统性能较好，如果us+sy>=85，表示系统性能比较糟糕。</p>
+</blockquote>
+
+<hr>
+
+<h3><code>查看Linux服务器的其它参数</code></h3>
+
+<p>1.<strong>系统内核</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># uname -a</span>
+Linux Jaylee 2.6.32-358.6.2.el6.x86_64 <span class="c">#1 SMP Thu May 16 20:59:36 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux</span>
+</code></pre></div>
+<p>2.<strong>系统是32位还是64位</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># file /sbin/init</span>
+/sbin/init: ELF 64-bit LSB shared object, x86-64, version 1 <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for </span>GNU/Linux 2.6.18, stripped
+</code></pre></div>
+<blockquote>
+<p>还可以查看是否有/lib64目录，有则系统为64位，无则表示系统为32位。</p>
+</blockquote>
+
+<p>3.<strong>查看服务器发行版的相关信息</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lsb_release -a</span>
+LSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID: CentOS
+Description:    CentOS release 6.3 <span class="o">(</span>Final<span class="o">)</span>
+Release:    6.3
+Codename:   Final
+</code></pre></div>
+<blockquote>
+<p>如无此命令，需要通过<code>yum install redhat-lsb</code>来安装</p>
+</blockquote>
+
+<p>4.<strong>查看系统已经载入的相关模块</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lsmod</span>
+Module                  Size  Used by
+tcp_diag                1041  0
+inet_diag               8735  1 tcp_diag
+ipt_REJECT              2351  0
+iptable_filter          2793  1
+ip_tables              17831  1 iptable_filter
+ipv6                  321454  42
+xenfs                   5705  1
+dm_mod                 82839  0
+xen_netfront           18905  0
+i2c_piix4              12608  0
+i2c_core               31084  1 i2c_piix4
+ext4                  363408  1
+mbcache                 8193  1 ext4
+jbd2                   90230  1 ext4
+xen_blkfront           15495  2
+pata_acpi               3701  0
+ata_generic             3837  0
+ata_piix               24121  0
+</code></pre></div>
+<blockquote>
+<p>Linux的核心具有模块化的特性，因此在编译核心时，无须把全部的功能都放入核心，可以将这些功能编译成一个个单独的模块，需要时分别载入。比如说安装LVS+Keepalived时，经常会用lsmod来查看lvs模块是否已经载入，<code>lsmod | grep ip_vs</code></p>
+</blockquote>
+
+<p>5.<strong>查找PCI设置</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lspci</span>
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC <span class="o">[</span>Natoma<span class="o">]</span> <span class="o">(</span>rev 02<span class="o">)</span>
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA <span class="o">[</span>Natoma/Triton II<span class="o">]</span>
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE <span class="o">[</span>Natoma/Triton II<span class="o">]</span>
+00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB <span class="o">[</span>Natoma/Triton II<span class="o">]</span> <span class="o">(</span>rev 01<span class="o">)</span>
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI <span class="o">(</span>rev 01<span class="o">)</span>
+00:02.0 VGA compatible controller: Cirrus Logic GD 5446
+00:03.0 Unassigned class <span class="o">[</span>ff80<span class="o">]</span>: XenSource, Inc. Xen Platform Device <span class="o">(</span>rev 01<span class="o">)</span>
+</code></pre></div>
+<blockquote>
+<p>此命令可以列出机器中的PCI设备信息，比如声卡，显卡，网卡等信息，lspci读取的是hwdata数据库。
+可能需要使用<code>yum install pciutils</code>来安装此命令。</p>
+</blockquote>
 
 				</section>
 			</div>

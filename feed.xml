@@ -8,31 +8,34 @@
     
       <item>
         <title>全面了解Linux服务器</title>
-        <description>&lt;h4&gt;查看Linux服务器的CPU的详细情况&lt;/h4&gt;
+        <description>&lt;h3&gt;&lt;code&gt;查看Linux服务器的CPU的详细情况&lt;/code&gt;&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;具有相同core id的cpu是同一个core的超线程&lt;/li&gt;
-&lt;li&gt;具有相同physical id的cpu是同一个cpu封装的线程或核心&lt;/li&gt;
-&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;具有相同core id的cpu是同一个core的超线程&lt;/p&gt;
 
-&lt;h5&gt;查看物理CPU的个数&lt;/h5&gt;
+&lt;p&gt;具有相同physical id的cpu是同一个cpu封装的线程或核心&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;1.&lt;strong&gt;查看物理CPU的个数&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;cat /proc/cpuinfo &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; grep &lt;span class=&quot;s1&quot;&gt;&amp;#39;physical id&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; sort &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; uniq &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; wc -l
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h5&gt;每个CPU中core的个数(即核心数)&lt;/h5&gt;
+&lt;p&gt;2.&lt;strong&gt;每个CPU中core的个数(即核心数)&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;cat /proc/cpuinfo &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; grep &lt;span class=&quot;s1&quot;&gt;&amp;#39;cpu cores&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; uniq
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h5&gt;逻辑CPU的个数&lt;/h5&gt;
+&lt;p&gt;3.&lt;strong&gt;逻辑CPU的个数&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;cat /proc/cpuinfo &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; grep &lt;span class=&quot;s1&quot;&gt;&amp;#39;processor&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; wc -l
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;hr&gt;
 
-&lt;h4&gt;查看服务器的内存使用情况&lt;/h4&gt;
+&lt;h3&gt;&lt;code&gt;查看服务器的内存使用情况&lt;/code&gt;&lt;/h3&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# free -m&lt;/span&gt;
              total       used       free     shared    buffers     cached
 Mem:           994        884        110          0        151        401
 -/+ buffers/cache:        330        664
 Swap:          499         98        401
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h5&gt;参数说明&lt;/h5&gt;
+
 &lt;ul&gt;
 &lt;li&gt;total: 内存总数&lt;/li&gt;
 &lt;li&gt;used: 已经使用的内存数&lt;/li&gt;
@@ -45,11 +48,9 @@ Swap:          499         98        401
 
 &lt;hr&gt;
 
-&lt;h4&gt;查看Linux服务器的硬盘使用情况&lt;/h4&gt;
+&lt;h3&gt;&lt;code&gt;查看Linux服务器的硬盘使用情况&lt;/code&gt;&lt;/h3&gt;
 
-&lt;ol&gt;
-&lt;li&gt;查看硬盘分区信息&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;1.&lt;strong&gt;查看硬盘分区信息&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# fdisk -l&lt;/span&gt;
 
 Disk /dev/xvda: 21.5 GB, 21474836480 bytes
@@ -62,17 +63,13 @@ Disk identifier: 0x00073f45
     Device Boot      Start         End      Blocks   Id  System
 /dev/xvda1   *           1        2611    20970496   83  Linux
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;检查文件系统的磁盘占用情况&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;2.&lt;strong&gt;检查文件系统的磁盘占用情况&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# df -h&lt;/span&gt;
 文件系统          容量  已用  可用 已用%% 挂载点
 /dev/xvda1             20G   11G  8.4G  56% /
 tmpfs                 498M     0  498M   0% /dev/shm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;查看硬盘的I/O情况&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;3.&lt;strong&gt;查看硬盘的I/O情况&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# iostat -d -x -k 1 5&lt;/span&gt;
 Linux 2.6.32-358.6.2.el6.x86_64 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Jaylee&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;    2016年04月06日   _x86_64_    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1 CPU&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
@@ -117,15 +114,11 @@ xvda      0.00    0.00   0.00  0.00  0.00  0.00   0.00     0.00     0.00   0.00 
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 
-&lt;ol&gt;
-&lt;li&gt;查看Linux系统中某目录的大小&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;4.&lt;strong&gt;查看Linux系统中某目录的大小&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# du -sh vimrc&lt;/span&gt;
 292K    vimrc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;查看占用空间最多的十个文件或目录&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;5.&lt;strong&gt;查看占用空间最多的十个文件或目录&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# du -cks * | sort -rn  | head -n 10&lt;/span&gt;
 793396  总用量
 512004  swap
@@ -140,7 +133,149 @@ xvda      0.00    0.00   0.00  0.00  0.00  0.00   0.00     0.00     0.00   0.00 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;hr&gt;
 
-&lt;h4&gt;查看Linux服务器的平均负载&lt;/h4&gt;
+&lt;h3&gt;&lt;code&gt;查看Linux服务器的平均负载&lt;/code&gt;&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;有时间我们会觉得系统很慢, 但是又找不到原因，这时就要查看系统的平均负载了，看它是否有大量的进程在排队等待。特定时间间隔内运行队列中的平均进程数可以反映系统的繁忙程度，所以我们通常会在自己的网站变慢时第一时间查看系统负载，即CPU的平均负载。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;1.&lt;strong&gt;如何查看&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# uptime                                                                &lt;/span&gt;
+ 20:52:10 up 153 days, 23:43,  5 users,  load average: 0.00, 0.00, 0.00
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;它表示的是过去的1分钟，5分钟和15分钟内进程队列中的平均进程数量。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;需要注意的是load average的输出值，这三个值的大小一般不能大于系统逻辑CPU的个数。例如，系统中有4个逻辑CPU时，如果这三个值长期大于4，说明CPU很繁忙，负载很高，可能会影响系统的性能。但是偶尔大于4时，倒不用担心，一般不会影响系统性能。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;2.&lt;strong&gt;用vmstat监控Linux系统的整体性能&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# vmstat 1 4                                                                                                                                 root@Jaylee&lt;/span&gt;
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 0  0  83424  69568 141976 202468    0    0    44     9    3    1  0  0 97  2  0
+ 0  0  83424  69576 141976 202488    0    0     0    80  189  275  1  0 99  0  0
+ 0  0  83424  69608 141976 202488    0    0     0     0  145  255  0  0 100  0  0
+ 0  0  83424  69616 141976 202488    0    0     0     0  150  261  1  1 98  0  0
+------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h5&gt;参数说明&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;procs
+
+&lt;ul&gt;
+&lt;li&gt;r: 等待运行的进程数&lt;/li&gt;
+&lt;li&gt;b: 处在非中断睡眠状态的进程数&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;memory
+
+&lt;ul&gt;
+&lt;li&gt;swpd: 虚拟内存的使用情况&lt;/li&gt;
+&lt;li&gt;free: 空闲的内存（单位：KB）&lt;/li&gt;
+&lt;li&gt;buff: 用作缓存的内存数（单位：KB）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;swap
+
+&lt;ul&gt;
+&lt;li&gt;si: 从磁盘交换到内存的交换页数量（单位：KB/秒）&lt;/li&gt;
+&lt;li&gt;so: 从内存交换到磁盘的交换页数量（单位：KB/秒）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;io
+
+&lt;ul&gt;
+&lt;li&gt;bi: 发送到块设备的块数（单位：块/秒）&lt;/li&gt;
+&lt;li&gt;bo: 从块设备接收到的块数（单位：块/秒）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;system
+
+&lt;ul&gt;
+&lt;li&gt;in: 每秒的中断数，包括时钟中斷&lt;/li&gt;
+&lt;li&gt;cs: 每秒的环境（上下文）切换次数&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;cpu
+
+&lt;ul&gt;
+&lt;li&gt;us: CPU使用时间&lt;/li&gt;
+&lt;li&gt;sy: CPU系统使用时间&lt;/li&gt;
+&lt;li&gt;id：闲置时间&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;标准情况下r和b的值应该为：r&amp;lt;5, b=0&lt;/p&gt;
+
+&lt;p&gt;如果us+sy&lt;70，表示系统性能较好，如果us+sy&gt;=85，表示系统性能比较糟糕。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr&gt;
+
+&lt;h3&gt;&lt;code&gt;查看Linux服务器的其它参数&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;1.&lt;strong&gt;系统内核&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# uname -a&lt;/span&gt;
+Linux Jaylee 2.6.32-358.6.2.el6.x86_64 &lt;span class=&quot;c&quot;&gt;#1 SMP Thu May 16 20:59:36 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;2.&lt;strong&gt;系统是32位还是64位&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# file /sbin/init&lt;/span&gt;
+/sbin/init: ELF 64-bit LSB shared object, x86-64, version 1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;SYSV&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, dynamically linked &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;uses shared libs&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;GNU/Linux 2.6.18, stripped
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;还可以查看是否有/lib64目录，有则系统为64位，无则表示系统为32位。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;3.&lt;strong&gt;查看服务器发行版的相关信息&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# lsb_release -a&lt;/span&gt;
+LSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID: CentOS
+Description:    CentOS release 6.3 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Final&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+Release:    6.3
+Codename:   Final
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如无此命令，需要通过&lt;code&gt;yum install redhat-lsb&lt;/code&gt;来安装&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;4.&lt;strong&gt;查看系统已经载入的相关模块&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# lsmod&lt;/span&gt;
+Module                  Size  Used by
+tcp_diag                1041  0
+inet_diag               8735  1 tcp_diag
+ipt_REJECT              2351  0
+iptable_filter          2793  1
+ip_tables              17831  1 iptable_filter
+ipv6                  321454  42
+xenfs                   5705  1
+dm_mod                 82839  0
+xen_netfront           18905  0
+i2c_piix4              12608  0
+i2c_core               31084  1 i2c_piix4
+ext4                  363408  1
+mbcache                 8193  1 ext4
+jbd2                   90230  1 ext4
+xen_blkfront           15495  2
+pata_acpi               3701  0
+ata_generic             3837  0
+ata_piix               24121  0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Linux的核心具有模块化的特性，因此在编译核心时，无须把全部的功能都放入核心，可以将这些功能编译成一个个单独的模块，需要时分别载入。比如说安装LVS+Keepalived时，经常会用lsmod来查看lvs模块是否已经载入，&lt;code&gt;lsmod | grep ip_vs&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;5.&lt;strong&gt;查找PCI设置&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh language-sh&quot; data-lang=&quot;sh&quot;&gt;~ &lt;span class=&quot;c&quot;&gt;# lspci&lt;/span&gt;
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Natoma&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;rev 02&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Natoma/Triton II&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Natoma/Triton II&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Natoma/Triton II&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;rev 01&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;rev 01&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+00:02.0 VGA compatible controller: Cirrus Logic GD 5446
+00:03.0 Unassigned class &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ff80&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;: XenSource, Inc. Xen Platform Device &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;rev 01&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此命令可以列出机器中的PCI设备信息，比如声卡，显卡，网卡等信息，lspci读取的是hwdata数据库。
+可能需要使用&lt;code&gt;yum install pciutils&lt;/code&gt;来安装此命令。&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
         <pubDate>Wed, 06 Apr 2016 22:53:28 +0800</pubDate>
         <link>http://www.jaylee.cc/linux-info/</link>
