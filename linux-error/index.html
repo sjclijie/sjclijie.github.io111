@@ -1,0 +1,291 @@
+<html>
+	<head>
+	<title>Linux故障诊断与排除 - Jaylee</title>
+	<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>var duoshuoQuery = {short_name:"jaylee"};</script>
+
+	</head>
+	<body>
+
+		<header>
+<a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+<p>Jaylee</p>
+
+<div id="blog-desc">
+    Do have faith in what you're doing.
+</div>
+
+</header>
+
+
+		<div id='container'>
+			
+			<div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/feed.xml">Feed</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/sjclijie">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+			<section class="paging">
+  
+    <div class="left">
+      <a href="">
+        ‹
+      </a>
+    </div>
+  
+  
+</section>
+
+
+			<div class="content">
+				<section class='post'>
+					<h1>
+						Linux故障诊断与排除
+						<div class='date'>09 Apr 2016</div>
+					</h1>
+					<h3><code>以普通身份编辑无权限的文件</code></h3>
+
+<blockquote>
+<p>如果用vim编辑一些配置文件的时候，保存的时候会提示“没有Root Permission”</p>
+</blockquote>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">:w ! sudo tee %
+</code></pre></div>
+<blockquote>
+<p>这条命令的含义就是把当前编辑的文件内容当作标准输入，并输入到命令<code>sudo tee %</code>里去，也就是将保存到当前文件名。</p>
+</blockquote>
+
+<hr>
+
+<h3><code>配置文件最大打开数的方法</code></h3>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># ulimit -a</span>
+-t: cpu <span class="nb">time</span> <span class="o">(</span>seconds<span class="o">)</span>         unlimited
+-f: file size <span class="o">(</span>blocks<span class="o">)</span>         unlimited
+-d: data seg size <span class="o">(</span>kbytes<span class="o">)</span>     unlimited
+-s: stack size <span class="o">(</span>kbytes<span class="o">)</span>        10240
+-c: core file size <span class="o">(</span>blocks<span class="o">)</span>    0
+-m: resident <span class="nb">set </span>size <span class="o">(</span>kbytes<span class="o">)</span> unlimited
+-u: processes                  1024
+-n: file descriptors           65535
+-l: locked-in-memory size <span class="o">(</span>kb<span class="o">)</span> 64
+-v: address space <span class="o">(</span>kb<span class="o">)</span>         unlimited
+-x: file locks                 unlimited
+-i: pending signals            7827
+-q: bytes in POSIX msg queues  819200
+-e: max nice                   0
+-r: max rt priority            0
+</code></pre></div>
+<blockquote>
+<p>其中(-n) file descriptors 65535是Linux对一个进程打开的文件句柄数量的限制（也包括打开的）socket数量，可影响mysql的并发连接数目。这个值可以用ulimit命令来修改，但ulimit命令修改的数值只对当前登入的用户目前使用的环境有效，系统重启或用户退出就会失效。</p>
+
+<p>系统的总限制在这里：<code>/proc/sys/fs/file-max</code>，可以通过查看cat查看其目前的值，通过<code>/etc/sysctl.conf</code>修改此值，不过此方式不会改变用户的<code>ulimits -a</code>，比较好的方法是在<code>/etc/rc.local</code>文件添加<code>ulimit -SHn 65535</code></p>
+
+<p>可以通过<code>/proc/sys/fs/file-nr</code>查看整个系统目前使用的文件句柄数量。</p>
+
+<p>可以通过<code>/proc/PID/limits | grep &quot;Max open files&quot;</code>来查看进程打开文件的最大数。</p>
+
+<p>查找文件句柄问题的时候，还可以通过<code>lsof</code>看到某个进程打开了哪些句柄，也可以查看某个文件/目录被什么进程所占用。</p>
+</blockquote>
+
+<h5>查找谁在使用这些文件</h5>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lsof /root</span>
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF   NODE NAME
+mycli     436 root  cwd    DIR  202,1     4096 286721 /root
+zsh      1078 root  cwd    DIR  202,1     4096 286721 /root
+zsh      8249 root  cwd    DIR  202,1     4096 286721 /root
+vim     18338 root  cwd    DIR  202,1     4096 286721 /root
+lsof    18444 root  cwd    DIR  202,1     4096 286721 /root
+lsof    18445 root  cwd    DIR  202,1     4096 286721 /root
+zsh     28092 root  cwd    DIR  202,1     4096 286721 /root
+tmux    31031 root  cwd    DIR  202,1     4096 286721 /root
+zsh     32766 root  cwd    DIR  202,1     4096 286721 /root
+</code></pre></div>
+<h5>查找root用户进程所打开的文件类型为txt的文件</h5>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lsof -a -u root -d txt</span>
+COMMAND     PID USER  FD      TYPE DEVICE SIZE/OFF    NODE NAME
+init          1 root txt       REG  202,1   150352 1302556 /sbin/init
+zsh        1078 root txt       REG  202,1   676304  723396 /bin/zsh
+rsyslogd   1239 root txt       REG  202,1   391968 1302646 /sbin/rsyslogd
+mysqld_sa  1412 root txt       REG  202,1   903528  721409 /bin/bash
+mingetty   1672 root txt       REG  202,1    15256 1302598 /sbin/mingetty
+sshd       6390 root txt       REG  202,1   571224  673436 /usr/sbin/sshd
+zsh        6392 root txt       REG  202,1   676304  723396 /bin/zsh
+sshd       8247 root txt       REG  202,1   571224  673436 /usr/sbin/sshd
+zsh        8249 root txt       REG  202,1   676304  723396 /bin/zsh
+flush-202  9428 root txt   unknown                         /proc/9428/exe
+nginx     10562 root txt       REG  202,1 12424740  764132 /usr/local/nginx/sbin/nginx
+</code></pre></div>
+<h6>查看80端口的运行情况</h6>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">~ <span class="c"># lsof -i :80</span>
+COMMAND     PID   USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+nginx      8324 nobody   14u  IPv4 1815293      0t0  TCP *:http <span class="o">(</span>LISTEN<span class="o">)</span>
+nginx     10562   root   14u  IPv4 1815293      0t0  TCP *:http <span class="o">(</span>LISTEN<span class="o">)</span>
+AliYunDun 23599   root   27u  IPv4 4477796      0t0  TCP 115.28.147.133:10997-&gt;110.75.102.62:http <span class="o">(</span>ESTABLISHED<span class="o">)</span>
+</code></pre></div>
+<h4>常用参数说明</h4>
+
+<ul>
+<li>lsof filename 显示打开指定文件的所有进程</li>
+<li>lsof -a 表示两个参数都必须满足时才显示结果</li>
+<li>lsof -c string 显示COMMAND列中包含指定字符串的进程所打开的文件</li>
+<li>lsof -u username 显示所属user进程打开的文件</li>
+<li>lsof -g gid 显示所属gid的进程情况</li>
+<li>lsof +d /DIR/ 显示DIR目录下被进程打开的文件</li>
+<li>lsof +D /DIR/ 同上，但包含子目录</li>
+<li>lsof -d FD 显示指定文件描述符的进程</li>
+<li>lsof -n 将IP显示为hostname</li>
+<li>lsof -i 用以显示符合条件的进程情况</li>
+<li>lsof -i[46] [protocol] [@hostname] [hostaddr] [:service|port]
+
+<ul>
+<li>46 =&gt; IPv4 or IPv6</li>
+<li>protocol =&gt; TCP or UDP</li>
+<li>hostname =&gt; internet host name</li>
+<li>hostaddr =&gt; IPv4地址</li>
+<li>service =&gt; /etc/services 中的service name</li>
+<li>port =&gt; 端口号</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h3><code>在crontab下正确防止脚本运行冲突</code></h3>
+
+<p>如果某脚本要运行30分钟，可以在crontab里把叫脚本间隔设置至少一个小时来避免冲突，而比较糟糕的情况就是可能该脚本在执行周期内没有完成，接着第二个脚本又开始运行了。如果确保只有一个脚本实例运行呢？ 一个好的方法就是利用lockf（FreeBSD下为lockf， CentOS 5.5 下为flock）, 在脚本执行前先检测能否获取某个文件锁，以防止脚本冲突。</p>
+
+<p>flock的参数如下：</p>
+
+<ul>
+<li>-s: 获得一个共享锁</li>
+<li>-x: 获得一个独占锁</li>
+<li>-u: 移除一个锁，通常不需要，脚本执行完全会自动丢弃锁</li>
+<li>-n: 如果没有立即获得锁，直接失败而不是等待</li>
+<li>-w: 如果没有立即获得锁，等待指定时间</li>
+<li>-o: 在运行命令前关闭文件的描述符号。用于如果命令产生子进程时会不受锁的管控</li>
+<li>-c: 在shell中运行一个单独的命令</li>
+</ul>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">*/10 * * * * flock -xn /tmp/test.lock -c <span class="s2">&quot;/usr/local/php/bin/php test.php 2&gt;&amp;1 &gt;&gt; php.log&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>若一个实例在10分钟没有运行完，第2个实例则不会运行。</p>
+</blockquote>
+
+				</section>
+			</div>
+
+			
+				<!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="Linux故障诊断与排除" data-url="http://www.jaylee.cc/linux-error/"></div>
+<!-- 多说评论框 end -->
+			
+
+		</div>
+
+		<script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+		</script>
+
+	</body>
+
+	<div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© Jaylee. All Rights Reserved.</span><br>
+  <a href="http://github.com/chloerei/scribble" class="muted">built with Jekyll using Scribble theme</a>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
